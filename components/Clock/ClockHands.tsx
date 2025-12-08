@@ -19,7 +19,7 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds }) => {
             <div
                 className="absolute z-20 rounded-full flex justify-center pt-[4px]"
                 style={{
-                    width: '10px',
+                    width: '12px',
                     height: '104px',
                     backgroundColor: CLOCK_THEME.colors.hands.hour,
                     boxShadow: CLOCK_THEME.colors.shadows.hand,
@@ -50,7 +50,7 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds }) => {
             >
                 {/* White slot/insert detail */}
                 <div
-                    className="w-[4px] rounded-full h-[32px] opacity-90"
+                    className="w-[3px] rounded-full h-[32px] opacity-90"
                     style={{ backgroundColor: CLOCK_THEME.colors.hands.insert }}
                 />
             </div>
