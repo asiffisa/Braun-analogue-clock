@@ -67,8 +67,8 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds }) => {
                 <div
                     className="absolute"
                     style={{
-                        width: '2px',
-                        height: '132px',
+                        width: '3px',
+                        height: '136px',
                         left: '50%',
                         bottom: '50%',
                         marginLeft: '-1px',
@@ -95,7 +95,7 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds }) => {
                     {/* Thin stem extending DOWN */}
                     <div
                         style={{
-                            width: '8px',
+                            width: '10px',
                             height: '16px',
                             backgroundColor: CLOCK_THEME.colors.hands.second,
                             borderRadius: '0 0 12px 12px',
