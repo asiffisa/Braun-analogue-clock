@@ -26,8 +26,8 @@ const Clock: React.FC = () => {
              {Array.from({ length: 60 }).map((_, i) => {
                 const isHour = i % 5 === 0;
                 const angle = i * 6;
-                // Position elements near the edge (radius 170px out of 200px)
-                const radius = 170; 
+                // Position elements near the edge (radius 184px out of 200px)
+                const radius = 178; 
                 
                 if (isHour) {
                   // Replace hour dash with Number
@@ -72,7 +72,7 @@ const Clock: React.FC = () => {
         <div
           className="absolute z-20 bg-black rounded-full shadow-lg flex justify-center pt-[4px]"
           style={{
-            width: '12px',
+            width: '10px',
             height: '110px', 
             transform: `rotate(${hourDegrees}deg)`,
             transformOrigin: 'bottom center',
@@ -80,14 +80,14 @@ const Clock: React.FC = () => {
           }}
         >
           {/* White slot/insert detail */}
-          <div className="w-[5px] bg-white rounded-full h-[34px] opacity-90" />
+          <div className="w-[4px] bg-white rounded-full h-[32px] opacity-90" />
         </div>
 
         {/* Minute Hand */}
         <div
           className="absolute z-20 bg-black rounded-full shadow-lg flex justify-center pt-[4px]"
           style={{
-            width: '12px',
+            width: '10px',
             height: '144px', 
             transform: `rotate(${minuteDegrees}deg)`,
             transformOrigin: 'bottom center',
@@ -95,7 +95,7 @@ const Clock: React.FC = () => {
           }}
         >
              {/* White slot/insert detail */}
-             <div className="w-[5px] bg-white rounded-full h-[34px] opacity-90" />
+             <div className="w-[4px] bg-white rounded-full h-[32px] opacity-90" />
         </div>
 
         {/* Second Hand */}
