@@ -1,31 +1,63 @@
-import React from 'react';
-import { CLOCK_THEME, CLOCK_DIMENSIONS } from './constants';
+import React, { memo } from 'react';
+import { CLOCK_THEMES, CLOCK_DIMENSIONS, type ClockThemeName } from './constants';
+import braunLogo from './Braun_Logo.svg';
+import silverRimImg from './sliver rim 1.webp';
+import blackRimImg from './black rim 1.webp';
 
-const ClockFace: React.FC = () => {
+interface ClockFaceProps {
+    theme: ClockThemeName;
+}
+
+const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
+    const activeTheme = CLOCK_THEMES[theme];
+    const rimImage = theme === 'dark' ? blackRimImg : silverRimImg;
+
     return (
-        <div
-            className="absolute inset-0 rounded-full border-[4px]"
-            style={{ borderColor: CLOCK_THEME.colors.border }}
-        >
-            <div className="absolute inset-0">
+        <div className="absolute inset-0">
+            {/* Theme-specific metal rim, placed behind the dial. */}
+            <div className="clock-rim">
+                <img
+                    src={rimImage}
+                    alt=""
+                    aria-hidden="true"
+                    className="w-full h-full object-contain"
+                />
+            </div>
+
+            {/* Dial covers the transparent center of the rim image. */}
+            <div
+                className="clock-dial"
+                style={{ background: activeTheme.colors.dial }}
+            >
+                {/* Braun Logo below 12 */}
+                <div className="clock-logo">
+                    <img
+                        src={braunLogo}
+                        alt="Braun Logo"
+                        className="w-full h-auto"
+                        style={{
+                            filter: activeTheme.colors.logoFilter,
+                            opacity: activeTheme.colors.logoOpacity,
+                        }}
+                    />
+                </div>
                 {Array.from({ length: 60 }).map((_, i) => {
                     const isHour = i % 5 === 0;
                     const angle = i * 6;
-                    const radius = CLOCK_DIMENSIONS.radius;
+                    const angleInRadians = (angle * Math.PI) / 180;
+                    const left = 50 + Math.sin(angleInRadians) * CLOCK_DIMENSIONS.radiusPercent;
+                    const top = 50 - Math.cos(angleInRadians) * CLOCK_DIMENSIONS.radiusPercent;
 
                     if (isHour) {
-                        // Replace hour dash with Number
                         const num = i === 0 ? 12 : i / 5;
                         return (
                             <div
                                 key={i}
-                                className="absolute w-12 h-12 flex items-center justify-center font-medium text-2xl"
+                                className="clock-number"
                                 style={{
-                                    left: '50%',
-                                    top: '50%',
-                                    color: CLOCK_THEME.colors.numbers,
-                                    // Translate to position, then counter-rotate to keep number upright
-                                    transform: `translate(-50%, -50%) rotate(${angle}deg) translate(0, -${radius}px) rotate(-${angle}deg)`,
+                                    left: `${left}%`,
+                                    top: `${top}%`,
+                                    color: activeTheme.colors.numbers,
                                 }}
                             >
                                 {num}
@@ -33,17 +65,16 @@ const ClockFace: React.FC = () => {
                         );
                     }
 
-                    // Small Minute Ticks
                     return (
                         <div
                             key={i}
-                            className="absolute w-[1px] h-[12px]"
+                            className="clock-tick"
                             style={{
-                                left: '50%',
-                                top: '50%',
-                                backgroundColor: CLOCK_THEME.colors.ticks,
-                                // Rotate and push out to the same radius circle
-                                transform: `translate(-50%, -50%) rotate(${angle}deg) translate(0, -${radius}px)`,
+                                left: `${left}%`,
+                                top: `${top}%`,
+                                backgroundColor: activeTheme.colors.ticks,
+                                opacity: activeTheme.colors.tickOpacity,
+                                transform: `translate(-50%, -50%) rotate(${angle}deg)`,
                             }}
                         />
                     );
@@ -51,6 +82,8 @@ const ClockFace: React.FC = () => {
             </div>
         </div>
     );
-};
+});
+
+ClockFace.displayName = 'ClockFace';
 
 export default ClockFace;

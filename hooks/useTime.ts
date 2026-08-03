@@ -20,8 +20,6 @@ export const useTime = (offsetMs?: number) => {
             }
         };
 
-        updateTime();
-
         let frameId: number;
         const loop = () => {
             updateTime();

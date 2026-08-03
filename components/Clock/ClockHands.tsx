@@ -1,13 +1,16 @@
 import React from 'react';
-import { CLOCK_THEME } from './constants';
+import { CLOCK_THEMES, type ClockThemeName } from './constants';
 
 interface ClockHandsProps {
     hours: number;
     minutes: number;
     seconds: number;
+    theme: ClockThemeName;
 }
 
-const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds }) => {
+const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme }) => {
+    const activeTheme = CLOCK_THEMES[theme];
+
     // Degrees calculation
     const secondDegrees = seconds * 6;
     const minuteDegrees = minutes * 6;
@@ -17,47 +20,37 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds }) => {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             {/* Hour Hand */}
             <div
-                className="absolute z-20 rounded-full flex justify-center pt-[4px]"
+                className="clock-hand clock-hand--hour"
                 style={{
-                    width: '12px',
-                    height: '104px',
-                    backgroundColor: CLOCK_THEME.colors.hands.hour,
-                    boxShadow: CLOCK_THEME.colors.shadows.hand,
-                    transform: `rotate(${hourDegrees}deg)`,
-                    transformOrigin: 'bottom center',
-                    bottom: '50%', // Anchor at center
+                    backgroundColor: activeTheme.colors.hands.hour,
+                    boxShadow: activeTheme.colors.shadows.hand,
+                    transform: `translateX(-50%) rotate(${hourDegrees}deg)`,
                 }}
             >
-                {/* White slot/insert detail */}
                 <div
-                    className="w-[4px] rounded-full h-[32px] opacity-90"
-                    style={{ backgroundColor: CLOCK_THEME.colors.hands.insert }}
+                    className="clock-hand__insert clock-hand__insert--hour"
+                    style={{ backgroundColor: activeTheme.colors.hands.insert }}
                 />
             </div>
 
             {/* Minute Hand */}
             <div
-                className="absolute z-20 rounded-full flex justify-center pt-[4px]"
+                className="clock-hand clock-hand--minute"
                 style={{
-                    width: '10px',
-                    height: '144px',
-                    backgroundColor: CLOCK_THEME.colors.hands.minute,
-                    boxShadow: CLOCK_THEME.colors.shadows.hand,
-                    transform: `rotate(${minuteDegrees}deg)`,
-                    transformOrigin: 'bottom center',
-                    bottom: '50%',
+                    backgroundColor: activeTheme.colors.hands.minute,
+                    boxShadow: activeTheme.colors.shadows.hand,
+                    transform: `translateX(-50%) rotate(${minuteDegrees}deg)`,
                 }}
             >
-                {/* White slot/insert detail */}
                 <div
-                    className="w-[3px] rounded-full h-[32px] opacity-90"
-                    style={{ backgroundColor: CLOCK_THEME.colors.hands.insert }}
+                    className="clock-hand__insert clock-hand__insert--minute"
+                    style={{ backgroundColor: activeTheme.colors.hands.insert }}
                 />
             </div>
 
             {/* Second Hand with Shadow */}
             <div
-                className="absolute z-30"
+                className="absolute inset-0 z-30"
                 style={{
                     transform: `rotate(${secondDegrees}deg)`,
                     transformOrigin: 'center center',
@@ -72,57 +65,46 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds }) => {
                         left: '50%',
                         bottom: '50%',
                         marginLeft: '-1px',
-                        marginBottom: '8px', // Start just above the center cap
+                        marginBottom: '8px',
                         borderRadius: '1px 1px 0 0',
-                        backgroundColor: CLOCK_THEME.colors.hands.second,
-                        filter: `drop-shadow(5px 0px 3px ${CLOCK_THEME.colors.hands.secondShadow})`,
+                        backgroundColor: activeTheme.colors.hands.second,
+                        filter: `drop-shadow(5px 0px 3px ${activeTheme.colors.hands.secondShadow})`,
                     }}
                 />
 
-                {/* Keyhole tail section - stem extending DOWN from center */}
-                <div
-                    className="absolute"
-                    style={{
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translateX(-50%)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        marginTop: '10px', // Position tail section below center cap
-                    }}
-                >
-                    {/* Thin stem extending DOWN */}
+                {/* The counterweight and pivot form one rotating, continuous seconds-hand assembly. */}
+                <div className="clock-second-pivot absolute inset-0">
                     <div
+                        className="clock-second-tail absolute"
                         style={{
+                            left: '50%',
+                            top: 'calc(50% + 2.75% - 1px)',
                             width: '10px',
                             height: '16px',
-                            backgroundColor: CLOCK_THEME.colors.hands.second,
+                            backgroundColor: activeTheme.colors.hands.second,
                             borderRadius: '0 0 12px 12px',
+                            transform: 'translateX(-50%)',
+                            // Keep the pivot's drop shadow from tinting the solid yellow tail.
+                            zIndex: 41,
                         }}
                     />
-                </div>
-            </div>
 
-            {/* Center Cap (Yellow Pivot) */}
-            <div
-                className="absolute z-40 rounded-full flex items-center justify-center"
-                style={{
-                    width: '22px',
-                    height: '22px',
-                    backgroundColor: CLOCK_THEME.colors.hands.centerCap,
-                }}
-            >
-                {/* Small keyhole ball INSIDE center cap, centered */}
-                <div
-                    className="rounded-full"
-                    style={{
-                        width: '12px',
-                        height: '12px',
-                        backgroundColor: CLOCK_THEME.colors.hands.centerCap,
-                        boxShadow: `inset 0 1px 1px ${CLOCK_THEME.colors.hands.centerCapInset}`,
-                    }}
-                />
+                    <div
+                        className="clock-center-cap"
+                        style={{
+                            backgroundColor: activeTheme.colors.hands.centerCap,
+                            boxShadow: activeTheme.colors.shadows.centerCap,
+                        }}
+                    >
+                        <div
+                            className="clock-center-cap__inner"
+                            style={{
+                                backgroundColor: activeTheme.colors.hands.centerCap,
+                                boxShadow: `inset 0 1px 1px ${activeTheme.colors.hands.centerCapInset}`,
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

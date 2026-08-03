@@ -1,5 +1,5 @@
 {
-  "name": "braun-style-analog-clock-(ist)",
+  "name": "braun-style-analog-clock-ist",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "pullcord": "^0.1.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
