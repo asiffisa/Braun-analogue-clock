@@ -109,8 +109,8 @@ const CORD_SCROLL_SWING = {
   maxAngle: 3,
   /** Spring return strength to center */
   stiffness: 0.08,
-  /** Energy absorption rate per frame (lower = stops oscillating faster) */
-  damping: 0.82,
+  /** Energy absorption rate per frame */
+  damping: 0.92,
 } as const;
 
 const MOBILE_MONITOR = {
