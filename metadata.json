@@ -1,5 +1,5 @@
 {
-  "name": "Braun Style Analog Clock (IST)",
-  "description": "A functional analog clock inspired by Braun design, synchronized to Indian Standard Time (IST).",
+  "name": "Timelapse",
+  "description": "A Braun-inspired analogue clock with a reusable React component and an interactive playground.",
   "requestFramePermissions": []
 }

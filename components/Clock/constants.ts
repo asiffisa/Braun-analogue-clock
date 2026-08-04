@@ -16,7 +16,7 @@ export const CLOCK_GLASS = {
     light: {
         refraction: 1.35,
         surfaceSoftness: 1.8,
-        blur: 0.45,
+        blur: 0.2,
         saturation: 1.08,
         contrast: 1.025,
         upperReflectionOpacity: 0.5,
@@ -27,7 +27,7 @@ export const CLOCK_GLASS = {
     dark: {
         refraction: 1.8,
         surfaceSoftness: 1.8,
-        blur: 0.45,
+        blur: 0.2,
         saturation: 1.08,
         contrast: 1.025,
         upperReflectionOpacity: 0.34,

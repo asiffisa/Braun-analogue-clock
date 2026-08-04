@@ -23,8 +23,7 @@ const createFormatter = (timeZone: string) =>
     second: '2-digit',
   });
 
-const readClockTime = (formatter: Intl.DateTimeFormat): ClockTime => {
-  const now = new Date();
+const readClockTime = (formatter: Intl.DateTimeFormat, now = new Date()): ClockTime => {
   const values = Object.fromEntries(
     formatter
       .formatToParts(now)
@@ -50,9 +49,21 @@ export const useTimeZone = (timeZone: string): ClockTime => {
 
   useEffect(() => {
     let frameId: number;
+    let currentWholeSecond = -1;
+    let calendarTime = readClockTime(formatter);
 
     const update = () => {
-      setTime(readClockTime(formatter));
+      const now = new Date();
+      const wholeSecond = Math.floor(now.getTime() / 1000);
+
+      // The hand still sweeps every frame, but the relatively expensive time-zone
+      // conversion only needs to change when the displayed second changes.
+      if (wholeSecond !== currentWholeSecond) {
+        currentWholeSecond = wholeSecond;
+        calendarTime = readClockTime(formatter, now);
+      }
+
+      setTime({ ...calendarTime, milliseconds: now.getMilliseconds() });
       frameId = requestAnimationFrame(update);
     };
 

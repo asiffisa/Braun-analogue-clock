@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Square2StackIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { PullCord, type PullCordConfig } from 'pullcord';
 import 'pullcord/pullcord.css';
@@ -8,27 +8,26 @@ import timelapseLogo from './timelapse logo.png';
 
 type InstallTarget = 'react' | 'agent';
 
-const INSTALL_SNIPPETS: Record<InstallTarget, string> = {
-  react: `// Copy only Clock.tsx, Clock/, and hooks/ from GitHub.
-// Clock.tsx imports its own styles. Do not copy the demo UI.
-// Defaults to IST (Asia/Chennai, UTC+05:30).
+const INSTALL_SNIPPETS: Record<InstallTarget, (theme: ClockThemeName) => string> = {
+  react: (theme) => `// Follow Clock_installation.md from GitHub.
+// Copy only its “Copy” paths. Exclude every “Do not copy” path.
 import Clock from './components/Clock';
 
 export default function App() {
-  return <Clock theme="light" timeZone="America/New_York" />;
+  return <Clock theme="${theme}" timeZone="Asia/Chennai" />;
 }`,
-  agent: `Add the Timelapse Clock to this React app.
+  agent: (theme) => `Add the Timelapse Clock to this React app.
 
-Follow COMPONENT_COPY.md from github.com/asiffisa/Braun-analogue-clock.
+Follow Clock_installation.md from github.com/asiffisa/Braun-analogue-clock.
 Copy only its “Copy” paths. Exclude every “Do not copy” path.
-<Clock theme="dark" timeZone="Europe/London" />`,
+
+<Clock theme="${theme}" timeZone="Asia/Chennai" />;`,
 };
 
-const ReactInstallSnippet = () => (
+const ReactInstallSnippet: React.FC<{ theme: ClockThemeName }> = ({ theme }) => (
   <>
-    <span className="syntax-comment">// Copy only Clock.tsx, Clock/, and hooks/ from GitHub.</span>{'\n'}
-    <span className="syntax-comment">// Clock.tsx imports its styles — not the demo UI.</span>{'\n'}
-    <span className="syntax-comment">// Defaults to IST (Asia/Chennai, UTC+05:30).</span>{'\n'}
+    <span className="syntax-comment">// Follow Clock_installation.md from GitHub.</span>{'\n'}
+    <span className="syntax-comment">// Copy only its “Copy” paths. Exclude every “Do not copy” path.</span>{'\n\n'}
     <span className="syntax-keyword">import</span>{' '}
     <span className="syntax-component">Clock</span>{' '}
     <span className="syntax-keyword">from</span>{' '}
@@ -37,9 +36,20 @@ const ReactInstallSnippet = () => (
     <span className="syntax-function">App</span>() {'{'}{'\n'}
     {'  '}<span className="syntax-keyword">return</span>{' '}
     {'<'}<span className="syntax-component">Clock</span>{' '}
-    <span className="syntax-property">theme</span>=<span className="syntax-string">"light"</span>{' '}
-    <span className="syntax-property">timeZone</span>=<span className="syntax-string">"America/New_York"</span>{' />'};{'\n'}
+    <span className="syntax-property">theme</span>=<span className="syntax-string">"{theme}"</span>{' '}
+    <span className="syntax-property">timeZone</span>=<span className="syntax-string">"Asia/Chennai"</span>{' />'};{'\n'}
     {'}'}
+  </>
+);
+
+const AgentInstallSnippet: React.FC<{ theme: ClockThemeName }> = ({ theme }) => (
+  <>
+    Add the Timelapse Clock to this React app.{'\n\n'}
+    Follow Clock_installation.md from github.com/asiffisa/Braun-analogue-clock.{'\n'}
+    Copy only its “Copy” paths. Exclude every “Do not copy” path.{'\n\n'}
+    {'<'}<span className="syntax-component">Clock</span>{' '}
+    <span className="syntax-property">theme</span>=<span className="syntax-string">"{theme}"</span>{' '}
+    <span className="syntax-property">timeZone</span>=<span className="syntax-string">"Asia/Chennai"</span>{' />'};
   </>
 );
 
@@ -51,17 +61,72 @@ const PULLCORD_CONFIG: Partial<PullCordConfig> = {
   stretchMax: 49,
 };
 
+const MOBILE_MONITOR = {
+  horizontalInset: 12,
+  maxScale: 0.58,
+  sourceWidth: 570,
+  sourceHeight: 374,
+  bottomOffset: -30,
+} as const;
+
 const App: React.FC = () => {
   const [theme, setTheme] = useState<ClockThemeName>('light');
   const [installTarget, setInstallTarget] = useState<InstallTarget>('agent');
   const [copied, setCopied] = useState(false);
+  const [mobileMonitorScale, setMobileMonitorScale] = useState(MOBILE_MONITOR.maxScale);
+  const copyResetTimerRef = useRef<number | undefined>(undefined);
+  const wallSceneRef = useRef<HTMLElement>(null);
+
+  useEffect(
+    () => () => {
+      if (copyResetTimerRef.current !== undefined) {
+        window.clearTimeout(copyResetTimerRef.current);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const wallScene = wallSceneRef.current;
+    if (!wallScene) return;
+
+    const mobileQuery = window.matchMedia('(max-width: 720px)');
+    const updateMonitorScale = () => {
+      if (!mobileQuery.matches) return;
+
+      const availableWidth = wallScene.clientWidth - MOBILE_MONITOR.horizontalInset * 2;
+      const nextScale = Math.min(
+        MOBILE_MONITOR.maxScale,
+        Math.max(0, availableWidth / MOBILE_MONITOR.sourceWidth),
+      );
+
+      setMobileMonitorScale((currentScale) => (
+        Math.abs(currentScale - nextScale) < 0.001 ? currentScale : nextScale
+      ));
+    };
+
+    const observer = typeof ResizeObserver === 'undefined'
+      ? undefined
+      : new ResizeObserver(updateMonitorScale);
+
+    observer?.observe(wallScene);
+    mobileQuery.addEventListener('change', updateMonitorScale);
+    window.addEventListener('resize', updateMonitorScale);
+    updateMonitorScale();
+
+    return () => {
+      observer?.disconnect();
+      mobileQuery.removeEventListener('change', updateMonitorScale);
+      window.removeEventListener('resize', updateMonitorScale);
+    };
+  }, []);
 
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'));
   };
 
   const copySnippet = async () => {
-    const snippet = INSTALL_SNIPPETS[installTarget];
+    const snippet = INSTALL_SNIPPETS[installTarget](theme);
 
     try {
       if (navigator.clipboard?.writeText) {
@@ -79,13 +144,23 @@ const App: React.FC = () => {
       }
 
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 4000);
+      if (copyResetTimerRef.current !== undefined) {
+        window.clearTimeout(copyResetTimerRef.current);
+      }
+      copyResetTimerRef.current = window.setTimeout(() => {
+        setCopied(false);
+        copyResetTimerRef.current = undefined;
+      }, 4000);
     } catch {
       setCopied(false);
     }
   };
 
   const nextThemeLabel = theme === 'light' ? 'dark' : 'light';
+  const monitorStyle = {
+    '--monitor-scale': mobileMonitorScale,
+    '--monitor-bottom': `${MOBILE_MONITOR.sourceHeight * (MOBILE_MONITOR.maxScale - mobileMonitorScale) + MOBILE_MONITOR.bottomOffset}px`,
+  } as React.CSSProperties;
 
   return (
     <main className={`timelapse-page timelapse-page--${theme}`}>
@@ -100,7 +175,7 @@ const App: React.FC = () => {
           <h1 id="site-title">Analogue soul<br />on web canvas</h1>
         </section>
 
-        <section id="playground" className="wall-scene" aria-label="Clock playground">
+        <section ref={wallSceneRef} id="playground" className="wall-scene" aria-label="Clock playground">
           <div className="wall-clock">
             <Clock theme={theme} />
           </div>
@@ -113,9 +188,8 @@ const App: React.FC = () => {
             config={PULLCORD_CONFIG}
           />
 
-          <div id="install" className="monitor" aria-label="Installation monitor">
+          <div id="install" className="monitor" aria-label="Installation monitor" style={monitorStyle}>
             <div className="monitor__bezel">
-              <div className="monitor__camera" aria-hidden="true" />
               <div className="monitor__screen">
                 <div className="monitor__statusbar" aria-label="Terminal status">
                   <div className="monitor__lights" aria-hidden="true">
@@ -126,11 +200,10 @@ const App: React.FC = () => {
                   <span className="monitor__statusbar-title">timelapse / install</span>
                 </div>
                 <div className="monitor__toolbar">
-                  <div className="install-tabs" role="tablist" aria-label="Installation format">
+                  <div className="install-tabs" aria-label="Installation format">
                     <button
                       type="button"
-                      role="tab"
-                      aria-selected={installTarget === 'agent'}
+                      aria-pressed={installTarget === 'agent'}
                       className={installTarget === 'agent' ? 'is-active' : undefined}
                       onClick={() => setInstallTarget('agent')}
                     >
@@ -138,8 +211,7 @@ const App: React.FC = () => {
                     </button>
                     <button
                       type="button"
-                      role="tab"
-                      aria-selected={installTarget === 'react'}
+                      aria-pressed={installTarget === 'react'}
                       className={installTarget === 'react' ? 'is-active' : undefined}
                       onClick={() => setInstallTarget('react')}
                     >
@@ -162,18 +234,54 @@ const App: React.FC = () => {
                     </span>
                   </button>
                 </div>
-                <pre aria-label={`${installTarget} code example`}>
+                <pre aria-label={`${installTarget} code example`} aria-live="polite">
                   <code>
-                    {installTarget === 'react' ? <ReactInstallSnippet /> : INSTALL_SNIPPETS.agent}
+                    {installTarget === 'react' ? <ReactInstallSnippet theme={theme} /> : <AgentInstallSnippet theme={theme} />}
                     <span className="code-cursor" aria-hidden="true" />
                   </code>
                 </pre>
               </div>
             </div>
-            <div className="monitor__stand" aria-hidden="true" />
-            <div className="monitor__foot" aria-hidden="true" />
           </div>
         </section>
+
+        <footer className="site-footer">
+          <div className="footer-info">
+            <p className="footer-built">Built by Asif</p>
+            <a
+              href="https://cradlstudio.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-website-link"
+            >
+              cradlstudio.in
+            </a>
+          </div>
+          <div className="footer-socials">
+            <a
+              href="https://github.com/asiffisa/Braun-analogue-clock"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-social-link"
+              aria-label="GitHub Repository"
+            >
+              <svg className="footer-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/asifb_"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-social-link"
+              aria-label="X (Twitter)"
+            >
+              <svg className="footer-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+          </div>
+        </footer>
       </div>
     </main>
   );

@@ -11,7 +11,7 @@ npm run build
 
 ## Reusable clock boundary
 
-The reusable unit is exactly the three paths in `COMPONENT_COPY.md`:
+The reusable unit is exactly the three paths in `Clock_installation.md`:
 
 - `components/Clock.tsx`
 - `components/Clock/`

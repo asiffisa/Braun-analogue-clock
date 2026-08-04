@@ -17,7 +17,6 @@ Use this file as the packing list when adding only the reusable clock to another
 - `public/`
 - `design-evidence/`
 - `timelapse logo.png`
-- `hooks/useIST.ts` and `hooks/useTime.ts` (legacy helpers)
 - `pullcord` and every demo-only dependency or interaction
 
 The copied component has no wall, monitor, pull cord, landing page, or outer/background shadow.

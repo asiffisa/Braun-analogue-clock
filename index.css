@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 :root {
     font-family: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
     color: #1b1c1a;
@@ -34,225 +32,6 @@ button {
     cursor: pointer;
 }
 
-.timelapse-page {
-    min-height: 100vh;
-    padding: 0 clamp(12px, 2.5vw, 36px) clamp(12px, 2.5vw, 36px);
-    color: #1c1c1a;
-    background: #000000;
-    transition: color 420ms ease, background 420ms ease;
-}
-
-.timelapse-page--dark {
-    color: #efefe8;
-    background: #000000;
-}
-
-.timelapse-frame {
-    width: min(1180px, 100%);
-    margin: 0 auto;
-    overflow: visible;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-}
-
-.timelapse-page--dark .timelapse-frame {
-    border: none;
-    background: transparent;
-    box-shadow: none;
-}
-
-.site-header,
-.intro,
-.install-section,
-.site-footer {
-    width: min(100% - 64px, 1040px);
-    margin-inline: auto;
-}
-
-.site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-block: 28px;
-}
-
-.wordmark,
-.site-nav a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.wordmark {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -0.05em;
-}
-
-.wordmark__mark {
-    width: 13px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: #eba915;
-    box-shadow: 6px 0 0 -3px currentColor;
-}
-
-.site-nav {
-    display: flex;
-    gap: 20px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.site-nav a {
-    opacity: 0.66;
-    transition: opacity 180ms ease;
-}
-
-.site-nav a:hover,
-.site-nav a:focus-visible {
-    opacity: 1;
-}
-
-.intro {
-    padding-top: clamp(36px, 7vw, 86px);
-    padding-bottom: 40px;
-    text-align: center;
-}
-
-.eyebrow {
-    margin: 0 0 12px;
-    color: #b37b03;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-}
-
-.intro h1,
-.install-section h2 {
-    margin: 0;
-    letter-spacing: -0.075em;
-    line-height: 0.98;
-}
-
-.intro h1 {
-    font-size: clamp(42px, 7vw, 82px);
-    font-weight: 500;
-}
-
-.intro > p:last-child {
-    max-width: 510px;
-    margin: 22px auto 0;
-    color: color-mix(in srgb, currentColor 67%, transparent);
-    font-size: 16px;
-    line-height: 1.55;
-}
-
-.wall-scene {
-    position: relative;
-    display: grid;
-    min-height: clamp(510px, 55vw, 660px);
-    place-items: center;
-    overflow: hidden;
-    border-top: 1px solid rgba(27, 28, 26, 0.1);
-    border-bottom: 1px solid rgba(27, 28, 26, 0.1);
-    background:
-        radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.87), rgba(255, 255, 255, 0) 34%),
-        linear-gradient(90deg, rgba(32, 34, 30, 0.03) 1px, transparent 1px),
-        #e9eae5;
-    background-size: auto, 42px 42px, auto;
-    transition: background 420ms ease, border-color 420ms ease;
-}
-
-.timelapse-page--dark .wall-scene {
-    border-color: rgba(255, 255, 255, 0.1);
-    background:
-        radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0) 36%),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
-        #1b1c1a;
-    background-size: auto, 42px 42px, auto;
-}
-
-.wall-scene__fixture {
-    position: absolute;
-    top: 14%;
-    left: 50%;
-    width: min(46vw, 500px);
-    aspect-ratio: 1;
-    border: 1px solid rgba(40, 43, 37, 0.08);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    pointer-events: none;
-}
-
-.timelapse-page--dark .wall-scene__fixture {
-    border-color: rgba(255, 255, 255, 0.07);
-}
-
-.wall-clock {
-    position: relative;
-    z-index: 1;
-    width: min(56vw, 424px);
-    filter: drop-shadow(0 24px 18px rgba(30, 32, 29, 0.14));
-    transition: filter 420ms ease;
-}
-
-.timelapse-page--dark .wall-clock {
-    filter: drop-shadow(0 26px 22px rgba(0, 0, 0, 0.38));
-}
-
-.pull-cord {
-    --pullcord-top: clamp(350px, 38vw, 500px);
-    --pullcord-right: clamp(24px, calc(50vw - 314px), 326px);
-    --pullcord-z: 12;
-    --pullcord-ink: rgba(42, 43, 39, 0.58);
-}
-
-.timelapse-page--dark .pull-cord {
-    --pullcord-ink: rgba(245, 245, 238, 0.56);
-}
-
-.wall-scene__theme {
-    position: absolute;
-    right: 25px;
-    bottom: 18px;
-    margin: 0;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    opacity: 0.42;
-    text-transform: uppercase;
-}
-
-.install-section {
-    padding-block: clamp(70px, 10vw, 118px) 54px;
-}
-
-.install-section__heading {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 32px;
-    margin-bottom: 40px;
-}
-
-.install-section h2 {
-    font-size: clamp(34px, 5vw, 56px);
-    font-weight: 500;
-}
-
-.install-section__heading > p {
-    max-width: 310px;
-    margin: 0 0 4px;
-    color: color-mix(in srgb, currentColor 62%, transparent);
-    font-size: 14px;
-    line-height: 1.5;
-}
-
 .monitor {
     display: flex;
     flex-direction: column;
@@ -267,19 +46,6 @@ button {
     border-radius: 20px;
     background: linear-gradient(145deg, #383a37, #141514 46%, #272927);
     box-shadow: 0 26px 38px rgba(19, 22, 19, 0.22), inset 0 1px rgba(255, 255, 255, 0.2);
-}
-
-.monitor__camera {
-    position: absolute;
-    z-index: 1;
-    top: 5px;
-    left: 50%;
-    width: 4px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: #090a09;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
-    transform: translateX(-50%);
 }
 
 .monitor__screen {
@@ -458,29 +224,76 @@ button {
     color: #2dd4bf;
 }
 
-.monitor__stand {
-    width: 90px;
-    height: 42px;
-    background: linear-gradient(90deg, #1a1c1a, #454844, #1a1c1a);
-}
-
-.monitor__foot {
-    width: 180px;
-    height: 13px;
-    border-radius: 50% 50% 5px 5px;
-    background: linear-gradient(90deg, #151715, #4b4f4b, #151715);
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.18);
-}
-
 .site-footer {
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    padding-block: 32px;
-    color: color-mix(in srgb, currentColor 53%, transparent);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    padding-block: 100px 36px;
+    width: 100%;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.footer-built {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: rgba(232, 231, 225, 0.75);
+}
+
+.footer-website-link {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(232, 231, 225, 0.58);
+    text-decoration: none;
+    transition: color 180ms ease, opacity 180ms ease;
+}
+
+.footer-website-link:hover {
+    color: #ffffff;
+    opacity: 0.95;
+    text-decoration: underline;
+}
+
+.footer-socials {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 0;
+}
+
+.footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(232, 231, 225, 0.88);
+    transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease, color 200ms ease;
+}
+
+.footer-social-link:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.footer-social-icon {
+    width: 19px;
+    height: 19px;
+    fill: currentColor;
 }
 
 /* Single-object landing scene ------------------------------------------------ */
@@ -517,6 +330,8 @@ button {
 }
 
 .site-header {
+    display: flex;
+    align-items: center;
     justify-content: center;
     padding-block: 0px 60px;
 }
@@ -539,6 +354,7 @@ button {
 }
 
 .intro h1 {
+    margin: 0;
     color: #d8d7d2;
     font-size: 60px;
     font-weight: 500;
@@ -554,6 +370,7 @@ button {
 }
 
 .wall-scene {
+    position: relative;
     --clock-top: clamp(54px, 8vw, 92px);
     --clock-size: clamp(230px, 29vw, 326px);
     --clock-monitor-gap: 120px;
@@ -731,83 +548,31 @@ button {
     }
 }
 
-.wall-scene .monitor__stand,
-.wall-scene .monitor__foot {
-    display: none;
-}
-
 @media (max-width: 720px) {
-    .site-header,
-    .intro,
-    .install-section,
     .site-footer {
-        width: min(100% - 36px, 1040px);
-    }
-
-    .site-header {
-        padding-block: 20px;
-    }
-
-    .site-nav {
-        gap: 14px;
-    }
-
-    .wall-scene {
-        min-height: 485px;
-    }
-
-    .wall-clock {
-        width: min(72vw, 360px);
-        transform: translateX(-20px);
-    }
-
-    .pull-cord {
-        --pullcord-top: clamp(260px, 70vw, 360px);
-        --pullcord-right: 8px;
-    }
-
-    .install-section__heading {
-        display: block;
-    }
-
-    .install-section__heading > p {
-        margin-top: 17px;
-    }
-
-    .monitor__toolbar {
-        grid-template-columns: auto 1fr auto;
-        gap: 10px;
-        padding: 10px;
-    }
-
-    .install-tabs {
-        justify-self: start;
-    }
-
-    .copy-button {
-        padding: 0 8px;
-        font-size: 11px;
-    }
-
-    .site-footer {
+        padding-block: 60px 24px;
         gap: 16px;
-        font-size: 9px;
     }
 
     .timelapse-page {
         padding: 20px 14px;
     }
 
+    .header-logo {
+        height: 36px;
+    }
+
     .site-header {
-        padding: 4px 8px 28px;
+        padding: 0 0 36px;
     }
 
     .intro {
-        padding: 0 8px 28px;
+        padding: 0 0 48px;
     }
 
     .intro h1 {
-        font-size: clamp(40px, 12vw, 54px);
+        font-size: clamp(32px, 8.8vw, 42px);
+        line-height: 1.22;
     }
 
     .wall-scene {
@@ -816,7 +581,7 @@ button {
         --clock-monitor-gap: 72px;
         --monitor-height: 218px;
         height: max(
-            580px,
+            500px,
             calc(var(--clock-top) + var(--clock-size) + var(--clock-monitor-gap) + var(--monitor-height))
         );
         border-radius: 30px;
@@ -837,10 +602,10 @@ button {
 
     .wall-scene .monitor {
         top: auto;
-        bottom: -30px;
+        bottom: var(--monitor-bottom, -30px);
         left: 50%;
         width: 570px;
-        transform: translateX(-50%) scale(0.58);
+        transform: translateX(-50%) scale(var(--monitor-scale, 0.58));
         transform-origin: center bottom;
     }
 }

@@ -19,7 +19,7 @@ This repository is currently the **source project**. It is not an npm package ye
 
 To use the clock in a React app today:
 
-1. Copy only the exact paths listed in [COMPONENT_COPY.md](./COMPONENT_COPY.md). Its **Do not copy** section keeps every demo-only path out of a consumer app.
+1. Copy only the exact paths listed in [Clock_installation.md](./Clock_installation.md). Its **Do not copy** section keeps every demo-only path out of a consumer app.
 2. `Clock.tsx` imports its own `components/Clock/clock.css`, so the clock does not require the playground stylesheet or Tailwind.
 3. Render it with `import Clock from "./components/Clock"` and `<Clock theme="light" />`.
 
@@ -43,7 +43,7 @@ The pull cord belongs to this playground, not to the reusable clock. It uses the
 
 Give your agent this prompt:
 
-> Integrate the Timelapse `Clock` from `github.com/asiffisa/Braun-analogue-clock`. Follow `COMPONENT_COPY.md`: copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />` or pass an IANA `timeZone` such as `America/New_York`.
+> Integrate the Timelapse `Clock` from `github.com/asiffisa/Braun-analogue-clock`. Follow `Clock_installation.md`: copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />` or pass an IANA `timeZone` such as `America/New_York`.
 
 `AGENTS.md` contains the same integration contract, project commands, and the visual details that must not regress.
 
@@ -83,20 +83,30 @@ npm install
 npm run dev
 ```
 
-To make a production build:
+To run the full production check locally:
 
 ```bash
-npm run build
+npm run package
 ```
 
 Open `http://localhost:3000/`, then pull the cord on the right to switch between light and dark. The cord is intentionally part of the demo scene; the reusable `Clock` component remains independent.
+
+## Deploy on Vercel
+
+Timelapse is a static Vite site. It needs no environment variables or server runtime.
+
+1. Import the repository into Vercel, or deploy from this project with the Vercel MCP.
+2. Vercel runs `npm run package`, which type-checks first and then produces the static `dist/` folder.
+3. Verify the light and dark themes on the deployment URL before assigning a custom domain.
+
+`vercel.json` records this build contract so local and hosted production builds stay aligned.
 
 ## Project map
 
 - `components/Clock.tsx` — reusable component with `theme` and optional `timeZone` props.
 - `components/Clock/` — dial, hands, glass, palette, self-contained `clock.css`, and rim/logo assets.
-- `hooks/` — smooth real-time clock updates.
-- `COMPONENT_COPY.md` — exact component-only copy and exclusion manifest.
+- `hooks/useTimeZone.ts` — smooth, time-zone-aware clock updates.
+- `Clock_installation.md` — exact component-only copy and exclusion manifest.
 - `App.tsx` — demo wall, monitor, installation tabs, and pull-cord interaction.
 - `index.css` — playground layout, responsive scene styling, and clock styling.
 - `public/plaster-wall-morning-cropped.png` — approved morning wall with the hanging vine, seamless plaster, and deliberately edge-masked pegboard.
