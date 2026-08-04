@@ -741,7 +741,7 @@ button {
 
     .wall-scene .pull-cord {
         --pullcord-top: -16px;
-        --pullcord-right: 12px;
+        --pullcord-right: 18px;
         transform: translateX(-6px) scale(0.72) rotate(var(--cord-swing, 0deg));
         transform-origin: top right;
     }
