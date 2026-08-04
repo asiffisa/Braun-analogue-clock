@@ -30,4 +30,4 @@ dist-ssr
 .vercel
 
 # Personal artwork kept only on the local machine.
-asif sign.png
+/public/asif sign.png

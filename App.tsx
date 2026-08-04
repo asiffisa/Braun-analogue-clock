@@ -372,7 +372,7 @@ const App: React.FC = () => {
           <div className="footer-divider" aria-hidden="true" />
           <div className="footer-content">
             <div className="footer-info">
-              <p className="footer-built">Built by Asif</p>
+              <img src="/asif%20sign.png" alt="Asif Signature" className="footer-signature" />
               <a
                 href="https://cradlstudio.in/"
                 target="_blank"
