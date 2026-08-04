@@ -358,7 +358,7 @@ const App: React.FC = () => {
 
         <footer className="site-footer">
           <p className="footer-attribution">
-            This analogue clock component for the web, inspired by the classic{' '}
+            This web component is inspired by the classic{' '}
             <a
               href="https://braun-clocks.com/collections/analogue-clocks/products/bc26-braun-analogue-wall-clock-white"
               target="_blank"

@@ -112,3 +112,9 @@ Point your agent at the repository:
 To restyle the clock, edit `constants.ts` — both palettes and the glass settings live there.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for how the pieces fit together.
+
+## License
+
+This project is available under the [MIT License](./LICENSE). You can use,
+modify, and redistribute it, provided the copyright and license notice remain
+with the software.
