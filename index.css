@@ -371,6 +371,7 @@ button {
 
 .wall-scene {
     position: relative;
+    scroll-margin-top: 24px;
     --clock-top: clamp(54px, 8vw, 92px);
     --clock-size: clamp(230px, 29vw, 312px);
     --clock-monitor-gap: 120px;

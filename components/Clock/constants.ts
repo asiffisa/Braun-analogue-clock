@@ -42,7 +42,7 @@ export const CLOCK_THEMES = {
         colors: {
             dial: 'radial-gradient(circle at 38% 30%, #ffffff 0%, #fafafa 58%, #f4f4f2 100%)',
             ticks: '#171717',
-            tickOpacity: 0.44,
+            tickOpacity: 0.6,
             numbers: '#111111',
             logoFilter: 'none',
             logoOpacity: 0.9,
@@ -67,7 +67,7 @@ export const CLOCK_THEMES = {
         colors: {
             dial: 'radial-gradient(circle at 36% 27%, #282927 0%, #1B1C1B 48%, #111211 100%)',
             ticks: '#F0F0EA',
-            tickOpacity: 0.65,
+            tickOpacity: 0.75,
             numbers: '#E9E9E4',
             logoFilter: 'invert(1) brightness(1.25)',
             logoOpacity: 0.92,
