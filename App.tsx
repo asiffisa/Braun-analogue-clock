@@ -62,11 +62,11 @@ const PULLCORD_CONFIG: Partial<PullCordConfig> = {
 };
 
 const MOBILE_MONITOR = {
-  horizontalInset: 12,
+  horizontalInset: 10,
   maxScale: 0.58,
   sourceWidth: 570,
   sourceHeight: 374,
-  bottomOffset: -30,
+  bottomOffset: -34,
 } as const;
 
 const App: React.FC = () => {

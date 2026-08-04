@@ -578,7 +578,7 @@ button {
     .wall-scene {
         --clock-top: 48px;
         --clock-size: calc(min(58vw, 270px) - 26px);
-        --clock-monitor-gap: 72px;
+        --clock-monitor-gap: 55.2px;
         --monitor-height: 218px;
         height: max(
             500px,
