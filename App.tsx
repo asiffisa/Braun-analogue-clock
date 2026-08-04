@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { PullCord } from 'pullcord';
+import { Square2StackIcon } from '@heroicons/react/24/outline';
+import { PullCord, type PullCordConfig } from 'pullcord';
 import 'pullcord/pullcord.css';
 import Clock from './components/Clock';
 import type { ClockThemeName } from './components/Clock/constants';
@@ -22,9 +23,34 @@ Keep the clock CSS and assets intact. Expose a theme prop
 with "light" and "dark" values.`,
 };
 
+const ReactInstallSnippet = () => (
+  <>
+    <span className="syntax-comment">// 1. Copy components/Clock/ and hooks/ from GitHub.</span>{'\n'}
+    <span className="syntax-comment">// 2. Copy the clock CSS into your app stylesheet.</span>{'\n'}
+    <span className="syntax-keyword">import</span>{' '}
+    <span className="syntax-component">Clock</span>{' '}
+    <span className="syntax-keyword">from</span>{' '}
+    <span className="syntax-string">'./components/Clock'</span>;{'\n\n'}
+    <span className="syntax-keyword">export default function</span>{' '}
+    <span className="syntax-function">App</span>() {'{'}{'\n'}
+    {'  '}<span className="syntax-keyword">return</span>{' '}
+    {'<'}<span className="syntax-component">Clock</span>{' '}
+    <span className="syntax-property">theme</span>=<span className="syntax-string">"light"</span>{' />'};{'\n'}
+    {'}'}
+  </>
+);
+
+// Tuned to the FeralUI reference feel: taut, responsive, and deep enough to read as a real pull.
+const PULLCORD_CONFIG: Partial<PullCordConfig> = {
+  gravity: 1925,
+  damping: 0.935,
+  iterations: 17,
+  stretchMax: 49,
+};
+
 const App: React.FC = () => {
   const [theme, setTheme] = useState<ClockThemeName>('light');
-  const [installTarget, setInstallTarget] = useState<InstallTarget>('react');
+  const [installTarget, setInstallTarget] = useState<InstallTarget>('agent');
   const [copied, setCopied] = useState(false);
 
   const toggleTheme = () => {
@@ -70,9 +96,6 @@ const App: React.FC = () => {
 
         <section className="intro" aria-labelledby="site-title">
           <h1 id="site-title">A wall clock<br />for the web.</h1>
-          <p>
-            Real time, tuned glass, and a physical switch between light and dark.
-          </p>
         </section>
 
         <section id="playground" className="wall-scene" aria-label="Clock playground">
@@ -85,6 +108,7 @@ const App: React.FC = () => {
             onPull={toggleTheme}
             pulled={theme === 'dark'}
             ariaLabel={`Pull cord to switch to ${nextThemeLabel} mode`}
+            config={PULLCORD_CONFIG}
           />
 
           <div id="install" className="monitor" aria-label="Installation monitor">
@@ -105,27 +129,40 @@ const App: React.FC = () => {
                     <button
                       type="button"
                       role="tab"
-                      aria-selected={installTarget === 'react'}
-                      className={installTarget === 'react' ? 'is-active' : undefined}
-                      onClick={() => setInstallTarget('react')}
-                    >
-                      React
-                    </button>
-                    <button
-                      type="button"
-                      role="tab"
                       aria-selected={installTarget === 'agent'}
                       className={installTarget === 'agent' ? 'is-active' : undefined}
                       onClick={() => setInstallTarget('agent')}
                     >
                       Agent
                     </button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={installTarget === 'react'}
+                      className={installTarget === 'react' ? 'is-active' : undefined}
+                      onClick={() => setInstallTarget('react')}
+                    >
+                      React
+                    </button>
                   </div>
-                  <button type="button" className="copy-button" onClick={copySnippet}>
-                    {copied ? 'Copied' : 'Copy code'}
+                  <button
+                    type="button"
+                    className={`copy-button${copied ? ' is-copied' : ''}`}
+                    aria-label={`Copy ${installTarget} code`}
+                    onClick={copySnippet}
+                  >
+                    <Square2StackIcon className="copy-button__icon" strokeWidth={1.8} aria-hidden="true" />
+                    <span className="visually-hidden" aria-live="polite">
+                      {copied ? 'Copied' : ''}
+                    </span>
                   </button>
                 </div>
-                <pre aria-label={`${installTarget} code example`}><code>{INSTALL_SNIPPETS[installTarget]}<span className="code-cursor" aria-hidden="true" /></code></pre>
+                <pre aria-label={`${installTarget} code example`}>
+                  <code>
+                    {installTarget === 'react' ? <ReactInstallSnippet /> : INSTALL_SNIPPETS.agent}
+                    <span className="code-cursor" aria-hidden="true" />
+                  </code>
+                </pre>
               </div>
             </div>
             <div className="monitor__stand" aria-hidden="true" />

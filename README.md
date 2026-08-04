@@ -1,6 +1,17 @@
 # Timelapse
 
-Timelapse is a Braun-inspired analogue clock for the web. It has a real-time sweep, light and dark themes, a convex glass layer, and an optional pull-cord playground.
+Timelapse is a Braun-inspired analogue clock for the web. It has a real-time sweep, light and dark themes, a convex glass layer, and a tactile pull-cord playground.
+
+## Playground
+
+The included demo turns the component into a small physical scene:
+
+- A warm plaster wall with an organically feathered daylight sweep in light mode.
+- A matching charcoal-taupe plaster wall in dark mode, with no leftover daylight beam.
+- A live pull cord that switches the entire room and clock theme.
+- A foreground monitor with Agent and React installation instructions, source-like syntax colour, copy control, and a blinking terminal cursor.
+
+The wall surfaces are real image assets (`public/plaster-wall-daylight.png` and `public/plaster-wall-dark.png`), not CSS colour overlays. This keeps texture and light believable in both modes while the monitor stays visually bright in the dimmed room.
 
 ## Use it today
 
@@ -71,12 +82,16 @@ To make a production build:
 npm run build
 ```
 
+Open `http://localhost:3000/`, then pull the cord on the right to switch between light and dark. The cord is intentionally part of the demo scene; the reusable `Clock` component remains independent.
+
 ## Project map
 
 - `components/Clock.tsx` — reusable component and its `theme` prop.
 - `components/Clock/` — dial, hands, glass, palette, and rim/logo assets.
 - `hooks/` — smooth real-time clock updates.
-- `App.tsx` — demo wall, monitor, and pull-cord interaction.
-- `index.css` — playground layout and clock styling.
+- `App.tsx` — demo wall, monitor, installation tabs, and pull-cord interaction.
+- `index.css` — playground layout, responsive scene styling, and clock styling.
+- `public/plaster-wall-daylight.png` — warm light-mode plaster wall with its daylight sweep.
+- `public/plaster-wall-dark.png` — matching dark-mode plaster wall without a light ray.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the code map and [AGENTS.md](./AGENTS.md) for a concise agent handoff.
