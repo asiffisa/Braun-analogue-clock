@@ -22,6 +22,9 @@
     <meta name="twitter:description" content="A Braun-inspired analogue clock for the web, with smooth time movement and a reusable React component." />
     <meta name="twitter:image" content="/plaster-wall-morning-cropped.webp" />
 
+    <!-- Preload hero LCP wall texture for faster initial paint -->
+    <link rel="preload" as="image" href="/plaster-wall-morning-cropped.webp" fetchpriority="high" />
+
     <!-- The stylesheet is render-blocking; without these the font files then pay
          a fresh DNS + TLS handshake to a second origin before they can start. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

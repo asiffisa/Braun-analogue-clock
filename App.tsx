@@ -101,6 +101,18 @@ const PULLCORD_CONFIG: Partial<PullCordConfig> = {
   stretchMax: 44,
 };
 
+/** Subtle scroll swing configuration */
+const CORD_SCROLL_SWING = {
+  /** Scroll sensitivity: multiplier for scroll delta (lower = subtler motion) */
+  sensitivity: 0.04,
+  /** Hard cap on max sway angle in degrees */
+  maxAngle: 3,
+  /** Spring return strength to center */
+  stiffness: 0.08,
+  /** Energy absorption rate per frame (lower = stops oscillating faster) */
+  damping: 0.82,
+} as const;
+
 const MOBILE_MONITOR = {
   horizontalInset: 10,
   maxScale: 0.58,
@@ -212,47 +224,69 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // Swing the pull cord dynamically as the visitor scrolls the page
+  // Subtle scroll-driven sway for the pull cord
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     let lastScrollY = window.scrollY;
     let angle = 0;
     let angularVelocity = 0;
-    let animFrameId: number;
+    let animFrameId: number | null = null;
+    let cordEl: HTMLElement | null = null;
+    let lastSetSwing: string | null = null;
 
-    const stiffness = 0.06;
-    const damping = 0.91;
+    const updatePhysics = () => {
+      angularVelocity = (angularVelocity - angle * CORD_SCROLL_SWING.stiffness) * CORD_SCROLL_SWING.damping;
+      angle += angularVelocity;
+
+      angle = Math.min(Math.max(angle, -CORD_SCROLL_SWING.maxAngle), CORD_SCROLL_SWING.maxAngle);
+
+      if (!cordEl) {
+        cordEl = document.querySelector('.wall-scene .pull-cord') as HTMLElement | null;
+      }
+
+      const isMoving = Math.abs(angle) > 0.005 || Math.abs(angularVelocity) > 0.005;
+
+      if (cordEl) {
+        const nextSwing = isMoving ? `${angle.toFixed(2)}deg` : '0deg';
+        if (nextSwing !== lastSetSwing) {
+          cordEl.style.setProperty('--cord-swing', nextSwing);
+          lastSetSwing = nextSwing;
+        }
+      }
+
+      if (isMoving) {
+        animFrameId = requestAnimationFrame(updatePhysics);
+      } else {
+        animFrameId = null;
+      }
+    };
+
+    const startLoopIfNeeded = () => {
+      if (animFrameId === null) {
+        animFrameId = requestAnimationFrame(updatePhysics);
+      }
+    };
 
     const onScroll = () => {
       const currentScrollY = window.scrollY;
       const deltaY = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
 
-      const impulse = Math.min(Math.max(deltaY * 0.12, -5.5), 5.5);
+      const rawImpulse = deltaY * CORD_SCROLL_SWING.sensitivity;
+      const impulse = Math.min(Math.max(rawImpulse, -CORD_SCROLL_SWING.maxAngle), CORD_SCROLL_SWING.maxAngle);
       angularVelocity += impulse;
-    };
 
-    const updatePhysics = () => {
-      angularVelocity = (angularVelocity - angle * stiffness) * damping;
-      angle += angularVelocity;
-
-      const cordEl = document.querySelector('.wall-scene .pull-cord') as HTMLElement | null;
-      if (cordEl) {
-        if (Math.abs(angle) > 0.01 || Math.abs(angularVelocity) > 0.01) {
-          cordEl.style.setProperty('--cord-swing', `${angle.toFixed(2)}deg`);
-        } else {
-          cordEl.style.setProperty('--cord-swing', '0deg');
-        }
-      }
-
-      animFrameId = requestAnimationFrame(updatePhysics);
+      startLoopIfNeeded();
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    animFrameId = requestAnimationFrame(updatePhysics);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(animFrameId);
+      if (animFrameId !== null) {
+        cancelAnimationFrame(animFrameId);
+      }
     };
   }, []);
 

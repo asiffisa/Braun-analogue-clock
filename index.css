@@ -455,6 +455,7 @@ button {
     --pullcord-ink: rgba(52, 49, 44, 0.82);
     transform: translateX(-32px) rotate(var(--cord-swing, 0deg));
     transform-origin: top center;
+    will-change: transform;
 }
 
 .wall-scene .pull-cord svg {
