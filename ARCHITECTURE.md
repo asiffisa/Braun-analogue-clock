@@ -36,5 +36,3 @@ A clock is a linear function of time, so Timelapse does no per-frame work at all
 `useClockSync` re-seeks every hand on a shared checkpoint that lands on :00 and :30 of each minute, and whenever the tab is restored. An animation timeline is monotonic while wall-clock time is not, so this is what absorbs daylight-saving jumps, NTP corrections, and sleep/resume. All clocks on a page share one timer.
 
 `readClockTime` reads the requested zone through `Intl.DateTimeFormat`, so daylight-saving rules are handled by the browser. `Clock` defaults to Timelapse's `Asia/Chennai` alias, normalized to the official `Asia/Kolkata` zone (IST, UTC+05:30). An unrecognized zone falls back to the device's own zone with one warning rather than throwing through render.
-
-Under `prefers-reduced-motion`, the seconds hand keeps perfect time but trades its sweep for the once-a-second tick of a quartz movement.

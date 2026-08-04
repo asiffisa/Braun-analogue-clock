@@ -133,23 +133,36 @@ const App: React.FC = () => {
 
   // Warm the moonlit wall once the page is idle, so the first cord pull swaps
   // instantly instead of waiting on a cold fetch.
+  //
+  // `<link rel="prefetch">` and not `new Image()`: the point is to get the bytes
+  // into the HTTP cache, and decoding them up front would add ~12MB of bitmaps a
+  // phone has no use for until the cord is actually pulled. The browser also
+  // fetches these at the lowest priority, so they cannot crowd out the wall the
+  // visitor is currently looking at.
   useEffect(() => {
+    const links: HTMLLinkElement[] = [];
+
     const prefetch = () => {
-      for (const src of DARK_WALL_IMAGES) {
-        const image = new Image();
-        image.decoding = 'async';
-        image.src = src;
+      for (const href of DARK_WALL_IMAGES) {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.as = 'image';
+        link.href = href;
+        document.head.appendChild(link);
+        links.push(link);
       }
     };
 
     const idle = window.requestIdleCallback;
-    if (typeof idle === 'function') {
-      const handle = idle(prefetch, { timeout: 2500 });
-      return () => window.cancelIdleCallback?.(handle);
-    }
+    const handle = typeof idle === 'function'
+      ? idle(prefetch, { timeout: 3000 })
+      : window.setTimeout(prefetch, 1500);
 
-    const handle = window.setTimeout(prefetch, 1200);
-    return () => window.clearTimeout(handle);
+    return () => {
+      if (typeof idle === 'function') window.cancelIdleCallback?.(handle as number);
+      else window.clearTimeout(handle as number);
+      for (const link of links) link.remove();
+    };
   }, []);
 
   useEffect(() => {

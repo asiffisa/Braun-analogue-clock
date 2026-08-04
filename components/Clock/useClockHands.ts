@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
+import { useCallback, useRef, type RefObject } from 'react';
 import { readClockTime, useClockLayoutEffect, useClockSync } from '../../hooks/useTimeZone';
 
 const HOUR_PERIOD_MS = 43_200_000;
@@ -20,13 +20,6 @@ const CENTRED_TURN: Keyframe[] = [
   { transform: 'rotate(0deg)' },
   { transform: 'rotate(360deg)' },
 ];
-
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-
-const prefersReducedMotion = () =>
-  typeof window !== 'undefined' &&
-  typeof window.matchMedia === 'function' &&
-  window.matchMedia(REDUCED_MOTION_QUERY).matches;
 
 export interface ClockHandRefs {
   hour: RefObject<HTMLDivElement | null>;
@@ -50,22 +43,6 @@ export const useClockHands = (timeZone: string): ClockHandRefs => {
   const minute = useRef<HTMLDivElement | null>(null);
   const second = useRef<HTMLDivElement | null>(null);
   const animations = useRef<Animation[]>([]);
-
-  // Swapping the seconds easing means rebuilding the animation, so the
-  // preference has to be state rather than an inline read.
-  const [reducedMotion, setReducedMotion] = useState(prefersReducedMotion);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
-
-    const query = window.matchMedia(REDUCED_MOTION_QUERY);
-    const onChange = () => setReducedMotion(query.matches);
-
-    query.addEventListener('change', onChange);
-    onChange();
-
-    return () => query.removeEventListener('change', onChange);
-  }, []);
 
   const seek = useCallback(() => {
     const [hourAnimation, minuteAnimation, secondAnimation] = animations.current;
@@ -114,9 +91,9 @@ export const useClockHands = (timeZone: string): ClockHandRefs => {
       secondElement.animate(CENTRED_TURN, {
         duration: SECOND_PERIOD_MS,
         iterations: Infinity,
-        // Reduced motion keeps the time correct but trades the sweep for the
-        // once-a-second tick of a quartz movement.
-        easing: reducedMotion ? 'steps(60, jump-end)' : 'linear',
+        // Always a continuous sweep. A stepped seconds hand under
+        // prefers-reduced-motion reads as a broken clock, not a considerate one.
+        easing: 'linear',
       }),
     ];
 
@@ -127,7 +104,7 @@ export const useClockHands = (timeZone: string): ClockHandRefs => {
       for (const animation of built) animation.cancel();
       animations.current = [];
     };
-  }, [reducedMotion, seek]);
+  }, [seek]);
 
   useClockSync(seek);
 

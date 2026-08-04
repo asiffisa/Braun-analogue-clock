@@ -43,7 +43,7 @@ The public component API is deliberately small:
 
 `maxSize` (default `400`) is the largest edge the clock will grow to; it always stays square and fluid below that. `ariaLabel` overrides the default announcement, which is the time the clock is currently showing.
 
-The clock does no per-frame work: the hands are one continuous rotation each, run by the browser's animation engine and re-anchored to real time on a shared 30-second checkpoint. Rendering many clocks on one page costs no more timers than rendering one. Under `prefers-reduced-motion` the seconds hand ticks once a second instead of sweeping.
+The clock does no per-frame work: the hands are one continuous rotation each, run by the browser's animation engine and re-anchored to real time on a shared 30-second checkpoint. Rendering many clocks on one page costs no more timers than rendering one.
 
 The pull cord belongs to this playground, not to the reusable clock. It uses the separate `pullcord` dependency.
 
