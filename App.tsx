@@ -372,7 +372,14 @@ const App: React.FC = () => {
           <div className="footer-divider" aria-hidden="true" />
           <div className="footer-content">
             <div className="footer-info">
-              <img src="/asif%20sign.png" alt="Asif Signature" className="footer-signature" />
+              <a
+                href="https://cradlstudio.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-signature-link"
+              >
+                <img src="/asif%20sign.png" alt="Asif Signature" className="footer-signature" />
+              </a>
               <a
                 href="https://cradlstudio.in/"
                 target="_blank"

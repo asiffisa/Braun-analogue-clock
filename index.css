@@ -614,6 +614,15 @@ button {
     text-align: left;
 }
 
+.footer-signature-link {
+    display: inline-block;
+    transition: opacity 180ms ease;
+}
+
+.footer-signature-link:hover {
+    opacity: 0.85;
+}
+
 .footer-signature {
     height: 40px;
     width: auto;
