@@ -333,7 +333,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-block: 0px 60px;
+    padding-block: 0px 80px;
 }
 
 .site-logo-link {
@@ -501,7 +501,7 @@ button {
     padding: 0 14px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.09);
     color: rgba(232, 235, 227, 0.55);
-    background: #1F1F1E;
+    background: #171916;
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
     font-size: 10px;
 }
@@ -708,7 +708,7 @@ button {
     }
 
     .site-header {
-        padding: 0 0 36px;
+        padding: 0 0 56px;
     }
 
     .intro {
