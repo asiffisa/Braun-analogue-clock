@@ -171,7 +171,10 @@ const App: React.FC = () => {
     if (!wallScene) return;
 
     const mobileQuery = window.matchMedia('(max-width: 720px)');
-    const updateMonitorScale = () => {
+    let pendingFrame: number | null = null;
+
+    const measure = () => {
+      pendingFrame = null;
       if (!mobileQuery.matches) return;
 
       const availableWidth = wallScene.clientWidth - MOBILE_MONITOR.horizontalInset * 2;
@@ -185,19 +188,29 @@ const App: React.FC = () => {
       ));
     };
 
+    // `.wall-scene` is a `width: 100%` block element, so ResizeObserver already
+    // fires for every window resize or device rotation on its own — a separate
+    // `window.addEventListener('resize', ...)` here would just repeat the same
+    // layout read a second time on every one of those events. And because a
+    // resize gesture can fire many events in a row, `measure` is coalesced to
+    // at most once per rendered frame instead of running once per event.
+    const scheduleMeasure = () => {
+      if (pendingFrame !== null) return;
+      pendingFrame = requestAnimationFrame(measure);
+    };
+
     const observer = typeof ResizeObserver === 'undefined'
       ? undefined
-      : new ResizeObserver(updateMonitorScale);
+      : new ResizeObserver(scheduleMeasure);
 
     observer?.observe(wallScene);
-    mobileQuery.addEventListener('change', updateMonitorScale);
-    window.addEventListener('resize', updateMonitorScale);
-    updateMonitorScale();
+    mobileQuery.addEventListener('change', scheduleMeasure);
+    measure();
 
     return () => {
+      if (pendingFrame !== null) cancelAnimationFrame(pendingFrame);
       observer?.disconnect();
-      mobileQuery.removeEventListener('change', updateMonitorScale);
-      window.removeEventListener('resize', updateMonitorScale);
+      mobileQuery.removeEventListener('change', scheduleMeasure);
     };
   }, []);
 
