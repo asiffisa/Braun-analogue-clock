@@ -359,6 +359,18 @@ const App: React.FC = () => {
         </section>
 
         <footer className="site-footer">
+          <p className="footer-attribution">
+            This analogue clock component for the web, inspired by the classic{' '}
+            <a
+              href="https://braun-clocks.com/collections/analogue-clocks/products/bc26-braun-analogue-wall-clock-white"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-attribution-link"
+            >
+              Braun BC26
+            </a>{' '}
+            clock design.
+          </p>
           <div className="footer-divider" aria-hidden="true" />
           <div className="footer-content">
             <div className="footer-info">

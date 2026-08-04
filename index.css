@@ -566,8 +566,8 @@ button {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: 80px;
-    padding-bottom: 40px;
+    margin-top: 60px;
+    padding-bottom: 30px;
 }
 
 .footer-divider {
@@ -575,6 +575,27 @@ button {
     height: 1px;
     background: rgba(255, 255, 255, 0.08);
     margin-bottom: 28px;
+}
+
+.footer-attribution {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(232, 231, 225, 0.58);
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.footer-attribution-link {
+    color: rgba(232, 231, 225, 0.58);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 180ms ease, opacity 180ms ease;
+}
+
+.footer-attribution-link:hover {
+    color: #ffffff;
 }
 
 .footer-content {
@@ -649,11 +670,16 @@ button {
 
 @media (max-width: 720px) {
     .site-footer {
-        margin-top: 48px;
-        padding-bottom: 24px;
+        margin-top: 24px;
+        padding-bottom: 16px;
     }
 
     .footer-divider {
+        margin-bottom: 20px;
+    }
+
+    .footer-attribution {
+        font-size: 10px;
         margin-bottom: 20px;
     }
 
