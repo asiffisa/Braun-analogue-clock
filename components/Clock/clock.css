@@ -110,6 +110,11 @@
     justify-content: center;
     padding-top: 1%;
     border-radius: 999px;
+    box-shadow:
+        clamp(2.724px, 1.6026cqi, 5px)
+        clamp(4.904px, 2.8846cqi, 9px)
+        clamp(6.538px, 3.8462cqi, 12px)
+        var(--clock-hand-shadow-color);
     transform-origin: bottom center;
     transition: background-color 280ms ease, box-shadow 280ms ease;
 }
@@ -148,6 +153,12 @@
     height: 34%;
     margin-bottom: 2%;
     border-radius: 999px 999px 0 0;
+    filter: drop-shadow(
+        clamp(2.724px, 1.6026cqi, 5px)
+        0
+        clamp(1.635px, 0.9615cqi, 3px)
+        var(--clock-second-shadow-color)
+    );
     transform: translateX(-50%);
 }
 
@@ -172,6 +183,11 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    box-shadow:
+        clamp(1.09px, 0.641cqi, 2px)
+        clamp(2.724px, 1.6026cqi, 5px)
+        clamp(4.359px, 2.5641cqi, 8px)
+        var(--clock-center-cap-shadow-color);
     transform: translate(-50%, -50%);
     transition: background-color 280ms ease, box-shadow 280ms ease;
 }
@@ -180,6 +196,7 @@
     width: 54.55%;
     aspect-ratio: 1;
     border-radius: 50%;
+    box-shadow: inset 0 clamp(0.545px, 0.3205cqi, 1px) clamp(0.545px, 0.3205cqi, 1px) var(--clock-center-cap-inset-color);
 }
 
 .clock-glass-filter {
@@ -191,7 +208,8 @@
 
 .clock-glass {
     position: absolute;
-    inset: -6px;
+    /* 4px on a 170px phone clock, smoothly growing to the approved 6px desktop bleed. */
+    inset: clamp(-6px, -2.3529cqi, -4px);
     z-index: 50;
     overflow: hidden;
     border-radius: 50%;
@@ -206,9 +224,9 @@
         radial-gradient(circle at 72% 74%, rgba(255, 255, 255, 0) 0 52%, rgba(214, 223, 231, 0.08) 80%, rgba(255, 255, 255, 0.18) 100%),
         linear-gradient(136deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.035) 35%, rgba(255, 255, 255, 0) 58%);
     box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.76),
-        inset 8px 10px 20px rgba(255, 255, 255, 0.12),
-        inset -8px -10px 20px rgba(110, 124, 136, 0.08);
+        inset 0 0 0 clamp(0.545px, 0.3205cqi, 1px) rgba(255, 255, 255, 0.76),
+        inset clamp(4.359px, 2.5641cqi, 8px) clamp(5.449px, 3.2051cqi, 10px) clamp(10.897px, 6.4103cqi, 20px) rgba(255, 255, 255, 0.12),
+        inset clamp(-8px, -2.5641cqi, -4.359px) clamp(-10px, -3.2051cqi, -5.449px) clamp(10.897px, 6.4103cqi, 20px) rgba(110, 124, 136, 0.08);
 }
 
 .clock-glass--dark {
@@ -216,9 +234,9 @@
         radial-gradient(circle at 72% 75%, rgba(255, 255, 255, 0) 0 54%, rgba(125, 139, 151, 0.035) 78%, rgba(217, 226, 233, 0.1) 100%),
         linear-gradient(136deg, rgba(255, 255, 255, 0.105) 0%, rgba(255, 255, 255, 0.022) 36%, rgba(255, 255, 255, 0) 58%);
     box-shadow:
-        inset 0 0 0 1px rgba(224, 232, 238, 0.26),
-        inset 7px 9px 18px rgba(255, 255, 255, 0.055),
-        inset -9px -12px 24px rgba(0, 0, 0, 0.16);
+        inset 0 0 0 clamp(0.545px, 0.3205cqi, 1px) rgba(224, 232, 238, 0.26),
+        inset clamp(3.814px, 2.2436cqi, 7px) clamp(4.904px, 2.8846cqi, 9px) clamp(9.808px, 5.7692cqi, 18px) rgba(255, 255, 255, 0.055),
+        inset clamp(-9px, -2.8846cqi, -4.904px) clamp(-12px, -3.8462cqi, -6.538px) clamp(13.077px, 7.6923cqi, 24px) rgba(0, 0, 0, 0.16);
 }
 
 .clock-glass__upper-reflection {
@@ -229,7 +247,7 @@
     height: 28%;
     border-radius: 50%;
     transform: rotate(-12deg);
-    filter: blur(8px);
+    filter: blur(clamp(4.359px, 2.5641cqi, 8px));
 }
 
 .clock-glass--light .clock-glass__upper-reflection {

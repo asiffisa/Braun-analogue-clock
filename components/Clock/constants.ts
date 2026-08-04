@@ -58,8 +58,8 @@ export const CLOCK_THEMES = {
                 insertMinute: '#F5F5F2',
             },
             shadows: {
-                hand: '5px 9px 12px rgba(0, 0, 0, 0.18)',
-                centerCap: '2px 5px 8px rgba(0, 0, 0, 0.22)',
+                hand: 'rgba(0, 0, 0, 0.18)',
+                centerCap: 'rgba(0, 0, 0, 0.22)',
             },
         },
     },
@@ -83,8 +83,8 @@ export const CLOCK_THEMES = {
                 insertMinute: '#F2AA12',
             },
             shadows: {
-                hand: '5px 10px 14px rgba(0, 0, 0, 0.48)',
-                centerCap: '2px 5px 9px rgba(0, 0, 0, 0.48)',
+                hand: 'rgba(0, 0, 0, 0.48)',
+                centerCap: 'rgba(0, 0, 0, 0.48)',
             },
         },
     },

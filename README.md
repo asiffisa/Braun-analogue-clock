@@ -72,7 +72,9 @@ export default function App() {
 
 ### Sizing
 
-The clock fills the width of whatever you put it in, up to `maxSize`. To control it, size the parent:
+The clock fills the width of whatever you put it in, up to `maxSize`. Its dial,
+hands, rim, glass, and shadows all scale with that container, so consumer apps
+do not need separate mobile overrides. To control it, size the parent:
 
 ```tsx
 <div style={{ width: 260 }}>

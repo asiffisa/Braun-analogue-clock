@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, type CSSProperties } from 'react';
 import { CLOCK_THEMES, type ClockThemeName } from './constants';
 import { useClockHands } from './useClockHands';
 
@@ -28,9 +28,9 @@ const ClockHands: React.FC<ClockHandsProps> = memo(({ theme, timeZone }) => {
                 className="clock-hand clock-hand--hour"
                 style={{
                     backgroundColor: activeTheme.colors.hands.hour,
-                    boxShadow: activeTheme.colors.shadows.hand,
+                    '--clock-hand-shadow-color': activeTheme.colors.shadows.hand,
                     transform: 'translateX(-50%)',
-                }}
+                } as CSSProperties}
             >
                 <div
                     className="clock-hand__insert clock-hand__insert--hour"
@@ -44,9 +44,9 @@ const ClockHands: React.FC<ClockHandsProps> = memo(({ theme, timeZone }) => {
                 className="clock-hand clock-hand--minute"
                 style={{
                     backgroundColor: activeTheme.colors.hands.minute,
-                    boxShadow: activeTheme.colors.shadows.hand,
+                    '--clock-hand-shadow-color': activeTheme.colors.shadows.hand,
                     transform: 'translateX(-50%)',
-                }}
+                } as CSSProperties}
             >
                 <div
                     className="clock-hand__insert clock-hand__insert--minute"
@@ -65,8 +65,8 @@ const ClockHands: React.FC<ClockHandsProps> = memo(({ theme, timeZone }) => {
                     className="clock-second-needle"
                     style={{
                         backgroundColor: activeTheme.colors.hands.second,
-                        filter: `drop-shadow(5px 0px 3px ${activeTheme.colors.hands.secondShadow})`,
-                    }}
+                        '--clock-second-shadow-color': activeTheme.colors.hands.secondShadow,
+                    } as CSSProperties}
                 />
 
                 {/* The counterweight and pivot form one rotating, continuous seconds-hand assembly. */}
@@ -84,15 +84,15 @@ const ClockHands: React.FC<ClockHandsProps> = memo(({ theme, timeZone }) => {
                         className="clock-center-cap"
                         style={{
                             backgroundColor: activeTheme.colors.hands.centerCap,
-                            boxShadow: activeTheme.colors.shadows.centerCap,
-                        }}
+                            '--clock-center-cap-shadow-color': activeTheme.colors.shadows.centerCap,
+                        } as CSSProperties}
                     >
                         <div
                             className="clock-center-cap__inner"
                             style={{
                                 backgroundColor: activeTheme.colors.hands.centerCap,
-                                boxShadow: `inset 0 1px 1px ${activeTheme.colors.hands.centerCapInset}`,
-                            }}
+                                '--clock-center-cap-inset-color': activeTheme.colors.hands.centerCapInset,
+                            } as CSSProperties}
                         />
                     </div>
                 </div>
