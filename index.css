@@ -54,7 +54,7 @@ button {
     min-height: 292px;
     border-radius: 11px;
     color: #e8ebe3;
-    background: #070807;
+    background: linear-gradient(180deg, #030303 0%, #070807 100%);
 }
 
 .monitor__screen::after {
