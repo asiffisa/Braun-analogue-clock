@@ -13,14 +13,14 @@ const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
     const rimImage = theme === 'dark' ? blackRimImg : silverRimImg;
 
     return (
-        <div className="absolute inset-0">
+        <div className="clock-face-layer">
             {/* Theme-specific metal rim, placed behind the dial. */}
             <div className="clock-rim">
                 <img
                     src={rimImage}
                     alt=""
                     aria-hidden="true"
-                    className="w-full h-full object-contain"
+                    className="clock-rim__image"
                 />
             </div>
 
@@ -34,7 +34,7 @@ const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
                     <img
                         src={braunLogo}
                         alt="Braun Logo"
-                        className="w-full h-auto"
+                        className="clock-logo__image"
                         style={{
                             filter: activeTheme.colors.logoFilter,
                             opacity: activeTheme.colors.logoOpacity,

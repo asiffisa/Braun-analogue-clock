@@ -17,7 +17,7 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme 
     const hourDegrees = hours * 30;
 
     return (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="clock-hands-layer">
             {/* Hour Hand */}
             <div
                 className="clock-hand clock-hand--hour"
@@ -29,7 +29,7 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme 
             >
                 <div
                     className="clock-hand__insert clock-hand__insert--hour"
-                    style={{ backgroundColor: activeTheme.colors.hands.insert }}
+                    style={{ backgroundColor: activeTheme.colors.hands.insertHour ?? activeTheme.colors.hands.insert }}
                 />
             </div>
 
@@ -44,13 +44,13 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme 
             >
                 <div
                     className="clock-hand__insert clock-hand__insert--minute"
-                    style={{ backgroundColor: activeTheme.colors.hands.insert }}
+                    style={{ backgroundColor: activeTheme.colors.hands.insertMinute ?? activeTheme.colors.hands.insert }}
                 />
             </div>
 
             {/* Second Hand with Shadow */}
             <div
-                className="absolute inset-0 z-30"
+                className="clock-seconds-assembly"
                 style={{
                     transform: `rotate(${secondDegrees}deg)`,
                     transformOrigin: 'center center',
@@ -58,32 +58,19 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme 
             >
                 {/* Main needle pointing UP (towards 12) */}
                 <div
-                    className="absolute"
+                    className="clock-second-needle"
                     style={{
-                        width: '3px',
-                        height: '136px',
-                        left: '50%',
-                        bottom: '50%',
-                        marginLeft: '-1px',
-                        marginBottom: '8px',
-                        borderRadius: '1px 1px 0 0',
                         backgroundColor: activeTheme.colors.hands.second,
                         filter: `drop-shadow(5px 0px 3px ${activeTheme.colors.hands.secondShadow})`,
                     }}
                 />
 
                 {/* The counterweight and pivot form one rotating, continuous seconds-hand assembly. */}
-                <div className="clock-second-pivot absolute inset-0">
+                <div className="clock-second-pivot">
                     <div
-                        className="clock-second-tail absolute"
+                        className="clock-second-tail"
                         style={{
-                            left: '50%',
-                            top: 'calc(50% + 2.75% - 1px)',
-                            width: '10px',
-                            height: '16px',
                             backgroundColor: activeTheme.colors.hands.second,
-                            borderRadius: '0 0 12px 12px',
-                            transform: 'translateX(-50%)',
                             // Keep the pivot's drop shadow from tinting the solid yellow tail.
                             zIndex: 41,
                         }}

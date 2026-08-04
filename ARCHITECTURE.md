@@ -8,18 +8,18 @@ flowchart TD
     Clock --> Hands[ClockHands: hour, minute, second]
     Clock --> Glass[ClockGlass: refraction and reflections]
     Clock --> Theme[constants.ts: theme and glass values]
-    Clock --> Time[useIST → useTime]
+    Clock --> Time[useTimeZone → Intl.DateTimeFormat]
 ```
 
 ## Two clear layers
 
 ### The reusable clock
 
-`components/Clock.tsx` is the product component. It reads the current time, calculates the hand angles, and assembles the dial, hands, rim, and glass layers. It accepts `theme="light"` or `theme="dark"`.
+`components/Clock.tsx` is the product component. It reads the current time, calculates the hand angles, and assembles the dial, hands, rim, and glass layers. It accepts `theme="light"` or `theme="dark"`, imports its own `components/Clock/clock.css`, and has no outer/background shadow.
 
 ### The demo playground
 
-`App.tsx` is the Timelapse site: plaster wall, physical pull cord, dark-room effect, and terminal monitor. It uses the clock but is not required when someone embeds the clock in their own React app.
+`App.tsx` is the Timelapse site: plaster wall, physical pull cord, dark-room effect, and terminal monitor. These are presentation-only interactions. It uses the clock but is not required when someone embeds the clock in their own React app.
 
 ## Visual system
 
@@ -30,4 +30,4 @@ flowchart TD
 
 ## Time flow
 
-`useTime` updates from `requestAnimationFrame`. `useIST` applies the Indian Standard Time offset. `Clock.tsx` converts the current time into continuous hour, minute, and seconds rotations, so the seconds hand sweeps instead of jumping.
+`useTimeZone` updates from `requestAnimationFrame` and reads the requested time zone through `Intl.DateTimeFormat`, so daylight-saving rules are handled by the browser. `Clock` defaults to Timelapse's `Asia/Chennai` alias, normalized to the official `Asia/Kolkata` zone (IST, UTC+05:30). `Clock.tsx` converts the current time into continuous hour, minute, and seconds rotations, so the seconds hand sweeps instead of jumping.

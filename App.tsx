@@ -1,32 +1,34 @@
 import React, { useState } from 'react';
-import { Square2StackIcon } from '@heroicons/react/24/outline';
+import { Square2StackIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { PullCord, type PullCordConfig } from 'pullcord';
 import 'pullcord/pullcord.css';
 import Clock from './components/Clock';
 import type { ClockThemeName } from './components/Clock/constants';
+import timelapseLogo from './timelapse logo.png';
 
 type InstallTarget = 'react' | 'agent';
 
 const INSTALL_SNIPPETS: Record<InstallTarget, string> = {
-  react: `// 1. Copy components/Clock/ and hooks/ from GitHub.
-// 2. Copy the clock CSS into your app stylesheet.
+  react: `// Copy only Clock.tsx, Clock/, and hooks/ from GitHub.
+// Clock.tsx imports its own styles. Do not copy the demo UI.
+// Defaults to IST (Asia/Chennai, UTC+05:30).
 import Clock from './components/Clock';
 
 export default function App() {
-  return <Clock theme="light" />;
+  return <Clock theme="light" timeZone="America/New_York" />;
 }`,
-  agent: `Add the Timelapse clock to this React app.
+  agent: `Add the Timelapse Clock to this React app.
 
-Copy components/Clock/, components/Clock.tsx,
-and hooks/ from github.com/asiffisa/Braun-analogue-clock.
-Keep the clock CSS and assets intact. Expose a theme prop
-with "light" and "dark" values.`,
+Follow COMPONENT_COPY.md from github.com/asiffisa/Braun-analogue-clock.
+Copy only its “Copy” paths. Exclude every “Do not copy” path.
+<Clock theme="dark" timeZone="Europe/London" />`,
 };
 
 const ReactInstallSnippet = () => (
   <>
-    <span className="syntax-comment">// 1. Copy components/Clock/ and hooks/ from GitHub.</span>{'\n'}
-    <span className="syntax-comment">// 2. Copy the clock CSS into your app stylesheet.</span>{'\n'}
+    <span className="syntax-comment">// Copy only Clock.tsx, Clock/, and hooks/ from GitHub.</span>{'\n'}
+    <span className="syntax-comment">// Clock.tsx imports its styles — not the demo UI.</span>{'\n'}
+    <span className="syntax-comment">// Defaults to IST (Asia/Chennai, UTC+05:30).</span>{'\n'}
     <span className="syntax-keyword">import</span>{' '}
     <span className="syntax-component">Clock</span>{' '}
     <span className="syntax-keyword">from</span>{' '}
@@ -35,7 +37,8 @@ const ReactInstallSnippet = () => (
     <span className="syntax-function">App</span>() {'{'}{'\n'}
     {'  '}<span className="syntax-keyword">return</span>{' '}
     {'<'}<span className="syntax-component">Clock</span>{' '}
-    <span className="syntax-property">theme</span>=<span className="syntax-string">"light"</span>{' />'};{'\n'}
+    <span className="syntax-property">theme</span>=<span className="syntax-string">"light"</span>{' '}
+    <span className="syntax-property">timeZone</span>=<span className="syntax-string">"America/New_York"</span>{' />'};{'\n'}
     {'}'}
   </>
 );
@@ -76,7 +79,7 @@ const App: React.FC = () => {
       }
 
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
+      window.setTimeout(() => setCopied(false), 4000);
     } catch {
       setCopied(false);
     }
@@ -88,14 +91,13 @@ const App: React.FC = () => {
     <main className={`timelapse-page timelapse-page--${theme}`}>
       <div className="timelapse-frame">
         <header className="site-header">
-          <a className="wordmark" href="#playground" aria-label="Timelapse home">
-            <span className="wordmark__mark" aria-hidden="true" />
-            timelapse
+          <a className="site-logo-link" href="#playground" aria-label="Timelapse home">
+            <img src={timelapseLogo} alt="Timelapse Logo" className="header-logo" />
           </a>
         </header>
 
         <section className="intro" aria-labelledby="site-title">
-          <h1 id="site-title">A wall clock<br />for the web.</h1>
+          <h1 id="site-title">Analogue soul<br />on web canvas</h1>
         </section>
 
         <section id="playground" className="wall-scene" aria-label="Clock playground">
@@ -122,7 +124,6 @@ const App: React.FC = () => {
                     <span />
                   </div>
                   <span className="monitor__statusbar-title">timelapse / install</span>
-                  <span className="monitor__statusbar-state">ready</span>
                 </div>
                 <div className="monitor__toolbar">
                   <div className="install-tabs" role="tablist" aria-label="Installation format">
@@ -151,7 +152,11 @@ const App: React.FC = () => {
                     aria-label={`Copy ${installTarget} code`}
                     onClick={copySnippet}
                   >
-                    <Square2StackIcon className="copy-button__icon" strokeWidth={1.8} aria-hidden="true" />
+                    {copied ? (
+                      <CheckIcon className="copy-button__icon text-emerald-400" strokeWidth={2.2} aria-hidden="true" />
+                    ) : (
+                      <Square2StackIcon className="copy-button__icon" strokeWidth={1.8} aria-hidden="true" />
+                    )}
                     <span className="visually-hidden" aria-live="polite">
                       {copied ? 'Copied' : ''}
                     </span>

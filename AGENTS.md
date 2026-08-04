@@ -11,21 +11,25 @@ npm run build
 
 ## Reusable clock boundary
 
-The reusable unit is `components/Clock.tsx` plus:
+The reusable unit is exactly the three paths in `COMPONENT_COPY.md`:
 
+- `components/Clock.tsx`
 - `components/Clock/`
-- `hooks/useTime.ts`
-- `hooks/useIST.ts`
-- the related clock CSS and SVG/WebP assets in `index.css`
+- `hooks/useTimeZone.ts`
 
-The public API is intentionally only:
+Respect that file's **Do not copy** list. It keeps the playground and legacy helpers out of consumer apps.
+
+The public API is intentionally small:
 
 ```tsx
 <Clock theme="light" />
 <Clock theme="dark" />
+<Clock theme="dark" timeZone="America/New_York" />
 ```
 
 `App.tsx`, the monitor, plaster wall, and `PullCord` are playground-only. Do not copy them into a consumer app unless the user explicitly asks for the complete demo.
+
+`Clock.tsx` imports `components/Clock/clock.css` itself. The reusable clock has no outer/background shadow; scene shadows belong to the demo's `.wall-clock` wrapper only.
 
 ## Integration rules
 
@@ -33,7 +37,7 @@ The public API is intentionally only:
 2. Preserve the second-hand tail and its shared yellow centre cap. They are one physical mechanism and must layer above the hand shadows.
 3. Keep `ClockGlass.tsx` above the full clock mechanism. Tune glass values only through `CLOCK_GLASS` in `constants.ts`.
 4. Do not add `pullcord` as a dependency for a clock-only integration.
-5. The clock currently reads Indian Standard Time through `useIST`. Do not silently change the time zone; make it an explicit prop in a future library version if needed.
+5. `Clock` defaults to Indian Standard Time (`Asia/Chennai`, UTC+05:30). Timelapse normalizes this friendly alias to the official browser zone `Asia/Kolkata`. Use its explicit `timeZone` prop for another standard IANA time-zone name; this preserves daylight-saving changes where applicable.
 
 ## Framer handoff
 

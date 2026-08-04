@@ -6,12 +6,12 @@ Timelapse is a Braun-inspired analogue clock for the web. It has a real-time swe
 
 The included demo turns the component into a small physical scene:
 
-- A warm plaster wall with an organically feathered daylight sweep in light mode.
-- A matching charcoal-taupe plaster wall in dark mode, with no leftover daylight beam.
+- A morning plaster wall with a cropped hanging vine, natural leaf shadows, and a slim right-side pegboard.
+- The same composition in moonlight for dark mode, with only the pegboard's tiny warm lamp turned on.
 - A live pull cord that switches the entire room and clock theme.
 - A foreground monitor with Agent and React installation instructions, source-like syntax colour, copy control, and a blinking terminal cursor.
 
-The wall surfaces are real image assets (`public/plaster-wall-daylight.png` and `public/plaster-wall-dark.png`), not CSS colour overlays. This keeps texture and light believable in both modes while the monitor stays visually bright in the dimmed room.
+The wall surfaces are real image assets (`public/plaster-wall-morning-cropped.png` and `public/plaster-wall-moonlight-matched.png`), not CSS colour overlays. This keeps the plant, pegboard, texture, and lighting believable in both modes while the monitor stays visually bright in the dimmed room.
 
 ## Use it today
 
@@ -19,16 +19,23 @@ This repository is currently the **source project**. It is not an npm package ye
 
 To use the clock in a React app today:
 
-1. Copy `components/Clock.tsx`, the complete `components/Clock/` folder, and the `hooks/` folder into your app.
-2. Copy the clock-related CSS from `index.css` and keep the SVG/WebP assets alongside the component.
+1. Copy only the exact paths listed in [COMPONENT_COPY.md](./COMPONENT_COPY.md). Its **Do not copy** section keeps every demo-only path out of a consumer app.
+2. `Clock.tsx` imports its own `components/Clock/clock.css`, so the clock does not require the playground stylesheet or Tailwind.
 3. Render it with `import Clock from "./components/Clock"` and `<Clock theme="light" />`.
+
+This import contains only the clock: no wall, pull cord, monitor, tabs, copy button, or demo interaction. The reusable clock also has no outer/background shadow; the scene-only shadow belongs to the playground's `.wall-clock` wrapper.
 
 The public component API is deliberately small:
 
 ```tsx
+// Defaults to IST: Asia/Chennai (UTC+05:30)
 <Clock theme="light" />
-<Clock theme="dark" />
+
+// Use any IANA time-zone name when needed.
+<Clock theme="dark" timeZone="America/New_York" />
 ```
+
+`timeZone` is optional and defaults to `Asia/Chennai` (Timelapse's friendly alias for the official browser zone `Asia/Kolkata`). It also accepts standard IANA time-zone names, so daylight-saving changes are handled by the browser when applicable.
 
 The pull cord belongs to this playground, not to the reusable clock. It uses the separate `pullcord` dependency.
 
@@ -36,7 +43,7 @@ The pull cord belongs to this playground, not to the reusable clock. It uses the
 
 Give your agent this prompt:
 
-> Integrate the Timelapse clock from `github.com/asiffisa/Braun-analogue-clock` into this React app. Copy `components/Clock.tsx`, `components/Clock/`, and `hooks/`. Preserve the clock CSS and image/SVG assets. Keep its public API as `theme="light" | "dark"`; do not bring over the landing page or pull-cord playground.
+> Integrate the Timelapse `Clock` from `github.com/asiffisa/Braun-analogue-clock`. Follow `COMPONENT_COPY.md`: copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />` or pass an IANA `timeZone` such as `America/New_York`.
 
 `AGENTS.md` contains the same integration contract, project commands, and the visual details that must not regress.
 
@@ -86,12 +93,13 @@ Open `http://localhost:3000/`, then pull the cord on the right to switch between
 
 ## Project map
 
-- `components/Clock.tsx` — reusable component and its `theme` prop.
-- `components/Clock/` — dial, hands, glass, palette, and rim/logo assets.
+- `components/Clock.tsx` — reusable component with `theme` and optional `timeZone` props.
+- `components/Clock/` — dial, hands, glass, palette, self-contained `clock.css`, and rim/logo assets.
 - `hooks/` — smooth real-time clock updates.
+- `COMPONENT_COPY.md` — exact component-only copy and exclusion manifest.
 - `App.tsx` — demo wall, monitor, installation tabs, and pull-cord interaction.
 - `index.css` — playground layout, responsive scene styling, and clock styling.
-- `public/plaster-wall-daylight.png` — warm light-mode plaster wall with its daylight sweep.
-- `public/plaster-wall-dark.png` — matching dark-mode plaster wall without a light ray.
+- `public/plaster-wall-morning-cropped.png` — approved morning wall with the hanging vine, seamless plaster, and deliberately edge-masked pegboard.
+- `public/plaster-wall-moonlight-matched.png` — composition-matched moonlit wall with the pegboard lamp subtly on.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the code map and [AGENTS.md](./AGENTS.md) for a concise agent handoff.

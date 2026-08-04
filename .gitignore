@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local visual QA captures and unused wall-image explorations
+/design-evidence/
+/public/plaster-wall-moonlight-blue.png
+/public/plaster-wall-moonlight-cropped.png
+/public/plaster-wall-moonlight-final.png
+/public/plaster-wall-moonlight-seamless.png
+/public/plaster-wall-moonlight.png
+/public/plaster-wall-morning-final.png
+/public/plaster-wall-morning-seamless.png
+/public/plaster-wall-morning.png

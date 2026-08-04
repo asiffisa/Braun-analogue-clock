@@ -1,21 +1,24 @@
 import React from 'react';
-import { useIST } from '../hooks/useIST';
+import { IST_TIME_ZONE, useTimeZone } from '../hooks/useTimeZone';
 import ClockFace from './Clock/ClockFace';
 import ClockGlass from './Clock/ClockGlass';
 import ClockHands from './Clock/ClockHands';
-import { CLOCK_DIMENSIONS, CLOCK_THEMES, type ClockThemeName } from './Clock/constants';
+import { CLOCK_DIMENSIONS, type ClockThemeName } from './Clock/constants';
+import './Clock/clock.css';
 
-interface ClockProps {
+export interface ClockProps {
   theme?: ClockThemeName;
+  /** An IANA time-zone name, or Timelapse's "Asia/Chennai" India alias. */
+  timeZone?: string;
 }
 
-const Clock: React.FC<ClockProps> = ({ theme = 'light' }) => {
-  const time = useIST();
-  const activeTheme = CLOCK_THEMES[theme];
+export const DEFAULT_TIME_ZONE = IST_TIME_ZONE;
 
-  const seconds = time.getSeconds() + time.getMilliseconds() / 1000;
-  const minutes = time.getMinutes() + seconds / 60;
-  const hours = (time.getHours() % 12) + minutes / 60;
+const Clock: React.FC<ClockProps> = ({ theme = 'light', timeZone = DEFAULT_TIME_ZONE }) => {
+  const time = useTimeZone(timeZone);
+  const seconds = time.seconds + time.milliseconds / 1000;
+  const minutes = time.minutes + seconds / 60;
+  const hours = (time.hours % 12) + minutes / 60;
 
   return (
     <div
@@ -23,7 +26,6 @@ const Clock: React.FC<ClockProps> = ({ theme = 'light' }) => {
       data-clock-theme={theme}
       style={{
         maxWidth: `${CLOCK_DIMENSIONS.size}px`,
-        boxShadow: activeTheme.colors.shadows.clock,
       }}
     >
       {/* Clock Face Layer */}
