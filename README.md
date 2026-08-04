@@ -1,123 +1,114 @@
-# Timelapse
+# Timelapse Clock
 
-Timelapse is a Braun-inspired analogue clock for the web. It has a real-time sweep, light and dark themes, a convex glass layer, and a tactile pull-cord playground.
+A Braun-inspired analogue clock for React. Drop it into a page and it keeps real time, in any time zone, with a smooth sweeping second hand.
 
-## Playground
+## Features
 
-The included demo turns the component into a small physical scene:
+- **Smooth sweep.** The second hand glides continuously instead of ticking.
+- **Light and dark themes**, each with its own dial, hands, metal rim, and glass.
+- **Any time zone.** Pass an IANA name; daylight saving is handled for you.
+- **Costs nothing per frame.** Each hand is a single rotation handed to the browser's animation engine, so there are no React re-renders and no JavaScript running frame to frame. The hands stay smooth even when the rest of your page is busy.
+- **Always accurate.** The hands re-anchor to real time twice a minute, so they survive daylight-saving jumps, clock corrections, and a laptop waking from sleep.
+- **Fluid and square.** Fills its container up to a size you choose, and never distorts.
+- **Screen-reader friendly.** Announces itself as the time it is showing, not as a pile of loose numbers.
+- **Self-contained.** One folder plus one hook. Its only dependency is React.
 
-- A morning plaster wall with a cropped hanging vine, natural leaf shadows, and a slim right-side pegboard.
-- The same composition in moonlight for dark mode, with only the pegboard's tiny warm lamp turned on.
-- A live pull cord that switches the entire room and clock theme.
-- A foreground monitor with Agent and React installation instructions, source-like syntax colour, copy control, and a blinking terminal cursor.
+## Installation
 
-The wall surfaces are real image assets (`public/plaster-wall-morning-cropped.webp` and `public/plaster-wall-moonlight-matched.webp`), not CSS colour overlays. This keeps the plant, pegboard, texture, and lighting believable in both modes while the monitor stays visually bright in the dimmed room.
+This is not an npm package yet, so you copy the source in.
 
-## Use it today
+**1. Copy these three paths into your project, keeping the same structure:**
 
-This repository is currently the **source project**. It is not an npm package yet.
+```
+components/Clock.tsx
+components/Clock/
+hooks/useTimeZone.ts
+```
 
-To use the clock in a React app today:
+That is the whole clock — dial, hands, glass, themes, rim art, and its own CSS. Nothing else in this repository is needed. [Clock_installation.md](./Clock_installation.md) is the full packing list, including what to leave behind.
 
-1. Copy only the exact paths listed in [Clock_installation.md](./Clock_installation.md). Its **Do not copy** section keeps every demo-only path out of a consumer app.
-2. `Clock.tsx` imports its own `components/Clock/clock.css`, so the clock does not require the playground stylesheet or Tailwind.
-3. Render it with `import Clock from "./components/Clock"` and `<Clock theme="light" />`.
-
-This import contains only the clock: no wall, pull cord, monitor, tabs, copy button, or demo interaction. The reusable clock also has no outer/background shadow; the scene-only shadow belongs to the playground's `.wall-clock` wrapper.
-
-The public component API is deliberately small:
+**2. Render it:**
 
 ```tsx
-// Defaults to IST: Asia/Chennai (UTC+05:30)
+import Clock from './components/Clock';
+
+export default function App() {
+  return <Clock theme="light" />;
+}
+```
+
+`Clock.tsx` imports its own stylesheet, so there is no CSS file to wire up and no Tailwind requirement.
+
+### Requirements
+
+- **React 18 or newer**
+- A bundler that can import `.css`, `.svg`, and `.webp` files — Vite, Next.js, and Create React App all do this out of the box
+- TypeScript, or convert the copied `.tsx`/`.ts` files to JavaScript by stripping the types
+
+## Usage
+
+```tsx
+// Light theme, default time zone
 <Clock theme="light" />
 
-// Use any IANA time-zone name when needed.
+// Dark theme, New York time
 <Clock theme="dark" timeZone="America/New_York" />
 
-// Grow past the default 400px cap, or replace the spoken description.
-<Clock theme="light" maxSize={640} />
-<Clock theme="light" ariaLabel="Office wall clock, Chennai" />
+// Larger than the 400px default
+<Clock maxSize={640} />
+
+// Custom screen-reader description
+<Clock ariaLabel="Office wall clock, Chennai" />
 ```
 
-`timeZone` is optional and defaults to `Asia/Chennai` (Timelapse's friendly alias for the official browser zone `Asia/Kolkata`). It also accepts standard IANA time-zone names, so daylight-saving changes are handled by the browser when applicable. A name the browser does not recognize falls back to the device's own zone and warns once, rather than throwing during render.
+### Props
 
-`maxSize` (default `400`) is the largest edge the clock will grow to; it always stays square and fluid below that. `ariaLabel` overrides the default announcement, which is the time the clock is currently showing.
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `theme` | `"light" \| "dark"` | `"light"` | Which palette to use. |
+| `timeZone` | `string` | `"Asia/Chennai"` | Any IANA time-zone name. |
+| `maxSize` | `number` | `400` | Largest edge in pixels. The clock fills its container up to this, always square. |
+| `ariaLabel` | `string` | the current time | Overrides what screen readers announce. |
 
-The clock does no per-frame work: the hands are one continuous rotation each, run by the browser's animation engine and re-anchored to real time on a shared 30-second checkpoint. Rendering many clocks on one page costs no more timers than rendering one.
+### Sizing
 
-The pull cord belongs to this playground, not to the reusable clock. It uses the separate `pullcord` dependency.
-
-## For coding agents
-
-Give your agent this prompt:
-
-> Integrate the Timelapse `Clock` from `github.com/asiffisa/Braun-analogue-clock`. Follow `Clock_installation.md`: copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />` or pass an IANA `timeZone` such as `America/New_York`.
-
-`AGENTS.md` contains the same integration contract, project commands, and the visual details that must not regress.
-
-## Framer
-
-The reliable route today is a **Framer Code Component**, not a Custom Code script:
-
-1. In Framer, open **Assets → Code → Create Code File**.
-2. Ask a coding agent to adapt the reusable clock source above into that single Framer code component, exposing a `theme` property control.
-3. Paste the component onto the canvas and set its width/height to a square.
-
-Framer code components are React components. Framer can technically import ES modules, but its npm support is still experimental; a purpose-built Framer component is more dependable than asking Framer to consume a generic npm package. [Framer’s Code Component guide](https://www.framer.com/developers/components-introduction) and [Framer’s npm guidance](https://www.framer.com/developers/faq) explain those limits.
-
-## The easy npm route — planned, not published
-
-Think of GitHub as the workshop where the clock is made. npm is the shop counter where people can pick up a boxed, versioned clock with one command.
-
-Before `npm install` can work, this project needs a small library package with a stable name, a compiled React entry point, TypeScript types, and a chosen open-source licence. Then people would use something like:
-
-```bash
-npm install @asiffisa/timelapse-clock
-```
+The clock fills the width of whatever you put it in, up to `maxSize`. To control it, size the parent:
 
 ```tsx
-import { TimelapseClock } from '@asiffisa/timelapse-clock';
-import '@asiffisa/timelapse-clock/styles.css';
+<div style={{ width: 260 }}>
+  <Clock theme="dark" />
+</div>
 ```
 
-That package name is only a proposed example; it has **not** been registered or published. Public npm packages are versioned packages that anyone can install from the npm registry. [npm’s public-package documentation](https://docs.npmjs.com/about-public-packages/) has the official overview.
+### Time zones
 
-## Run the playground locally
+`timeZone` accepts any [IANA time-zone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) — `"Europe/Berlin"`, `"America/Sao_Paulo"`, `"Asia/Tokyo"`. Daylight saving is applied automatically wherever it is observed.
 
-Prerequisite: Node.js 20 or later.
+The default is `"Asia/Chennai"`, a friendly alias for India Standard Time that resolves to the official `"Asia/Kolkata"`.
 
-```bash
-npm install
-npm run dev
-```
+A name the browser does not recognize will not crash your app — the clock falls back to the viewer's own device time zone and logs one warning.
 
-To run the full production check locally:
+## Installing with a coding agent
 
-```bash
-npm run package
-```
+Point your agent at the repository:
 
-Open `http://localhost:3000/`, then pull the cord on the right to switch between light and dark. The cord is intentionally part of the demo scene; the reusable `Clock` component remains independent.
+> Add the Timelapse Clock to this React app. Follow `Clock_installation.md` from `github.com/asiffisa/Braun-analogue-clock` — copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />`.
 
-## Deploy on Vercel
+[AGENTS.md](./AGENTS.md) holds the integration contract and the visual details that must not regress.
 
-Timelapse is a static Vite site. It needs no environment variables or server runtime.
+## What's in the clock
 
-1. Import the repository into Vercel, or deploy from this project with the Vercel MCP.
-2. Vercel runs `npm run package`, which type-checks first and then produces the static `dist/` folder.
-3. Verify the light and dark themes on the deployment URL before assigning a custom domain.
+| Path | Purpose |
+| --- | --- |
+| `components/Clock.tsx` | The component you import, and its props. |
+| `components/Clock/ClockFace.tsx` | Dial, numerals, tick marks, metal rim. |
+| `components/Clock/ClockHands.tsx` | Hour, minute, and second hands. |
+| `components/Clock/useClockHands.ts` | Drives the hands and keeps them on time. |
+| `components/Clock/ClockGlass.tsx` | The convex glass lens over the dial. |
+| `components/Clock/constants.ts` | Both colour palettes and the glass tuning values. |
+| `components/Clock/clock.css` | All clock styling, imported automatically. |
+| `hooks/useTimeZone.ts` | Time-zone resolution and the shared re-sync heartbeat. |
 
-`vercel.json` records this build contract so local and hosted production builds stay aligned.
+To restyle the clock, edit `constants.ts` — both palettes and the glass settings live there.
 
-## Project map
-
-- `components/Clock.tsx` — reusable component with `theme` and optional `timeZone` props.
-- `components/Clock/` — dial, hands, glass, palette, self-contained `clock.css`, and rim/logo assets.
-- `hooks/useTimeZone.ts` — time-zone resolution and the shared re-sync heartbeat that keeps every clock anchored to real time.
-- `Clock_installation.md` — exact component-only copy and exclusion manifest.
-- `App.tsx` — demo wall, monitor, installation tabs, and pull-cord interaction.
-- `index.css` — playground layout, responsive scene styling, and clock styling.
-- `public/plaster-wall-morning-cropped.webp` — approved morning wall with the hanging vine, seamless plaster, and deliberately edge-masked pegboard.
-- `public/plaster-wall-moonlight-matched.webp` — composition-matched moonlit wall with the pegboard lamp subtly on.
-
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for the code map and [AGENTS.md](./AGENTS.md) for a concise agent handoff.
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for how the pieces fit together.
