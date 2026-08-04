@@ -98,7 +98,7 @@ const PULLCORD_CONFIG: Partial<PullCordConfig> = {
   gravity: 1925,
   damping: 0.935,
   iterations: 17,
-  stretchMax: 49,
+  stretchMax: 44,
 };
 
 const MOBILE_MONITOR = {
@@ -209,6 +209,50 @@ const App: React.FC = () => {
       if (pendingFrame !== null) cancelAnimationFrame(pendingFrame);
       observer?.disconnect();
       mobileQuery.removeEventListener('change', scheduleMeasure);
+    };
+  }, []);
+
+  // Swing the pull cord dynamically as the visitor scrolls the page
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let angle = 0;
+    let angularVelocity = 0;
+    let animFrameId: number;
+
+    const stiffness = 0.06;
+    const damping = 0.91;
+
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      const deltaY = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+
+      const impulse = Math.min(Math.max(deltaY * 0.12, -5.5), 5.5);
+      angularVelocity += impulse;
+    };
+
+    const updatePhysics = () => {
+      angularVelocity = (angularVelocity - angle * stiffness) * damping;
+      angle += angularVelocity;
+
+      const cordEl = document.querySelector('.wall-scene .pull-cord') as HTMLElement | null;
+      if (cordEl) {
+        if (Math.abs(angle) > 0.01 || Math.abs(angularVelocity) > 0.01) {
+          cordEl.style.setProperty('--cord-swing', `${angle.toFixed(2)}deg`);
+        } else {
+          cordEl.style.setProperty('--cord-swing', '0deg');
+        }
+      }
+
+      animFrameId = requestAnimationFrame(updatePhysics);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    animFrameId = requestAnimationFrame(updatePhysics);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(animFrameId);
     };
   }, []);
 

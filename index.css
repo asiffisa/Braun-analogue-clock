@@ -453,7 +453,8 @@ button {
     --pullcord-right: clamp(38px, calc(8% + 10px), 102px);
     --pullcord-z: 7;
     --pullcord-ink: rgba(52, 49, 44, 0.82);
-    transform: translateX(-32px);
+    transform: translateX(-32px) rotate(var(--cord-swing, 0deg));
+    transform-origin: top center;
 }
 
 .wall-scene .pull-cord svg {
@@ -461,7 +462,7 @@ button {
 }
 
 .wall-scene .pull-cord path {
-    stroke-width: 1.8px;
+    stroke-width: 2px;
 }
 
 .timelapse-page--dark .wall-scene .pull-cord {
@@ -739,8 +740,12 @@ button {
 
     .wall-scene .pull-cord {
         --pullcord-right: 12px;
-        transform: translateX(-6px) scale(0.86);
+        transform: translateX(-6px) scale(0.86) rotate(var(--cord-swing, 0deg));
         transform-origin: top right;
+    }
+
+    .wall-scene .pull-cord path {
+        stroke-width: 1.8px;
     }
 
     .wall-scene .monitor {
