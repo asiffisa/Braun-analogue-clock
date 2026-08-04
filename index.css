@@ -251,7 +251,7 @@ button {
 .footer-website-link {
     font-size: 13px;
     font-weight: 400;
-    color: rgba(232, 231, 225, 0.58);
+    color: rgba(232, 231, 225, 0.44);
     text-decoration: none;
     transition: color 180ms ease, opacity 180ms ease;
 }
@@ -625,7 +625,7 @@ button {
 .footer-website-link {
     font-size: 11px;
     font-weight: 400;
-    color: rgba(232, 231, 225, 0.58);
+    color: rgba(232, 231, 225, 0.44);
     text-decoration: none;
     transition: color 180ms ease, opacity 180ms ease;
 }
@@ -682,6 +682,10 @@ button {
     .footer-attribution {
         font-size: 10px;
         margin-bottom: 20px;
+    }
+
+    .footer-website-link {
+        font-size: 9px;
     }
 
     .timelapse-page {
