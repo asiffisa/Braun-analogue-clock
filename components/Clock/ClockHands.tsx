@@ -1,30 +1,35 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { CLOCK_THEMES, type ClockThemeName } from './constants';
+import { useClockHands } from './useClockHands';
 
 interface ClockHandsProps {
-    hours: number;
-    minutes: number;
-    seconds: number;
     theme: ClockThemeName;
+    timeZone: string;
 }
 
-const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme }) => {
+/**
+ * The rotations are not React state. `useClockHands` hands each element to the
+ * browser's animation engine, so this component renders once per theme change
+ * instead of once per frame.
+ *
+ * The static transforms below are the hands' 12:00 rest position. They keep
+ * server-rendered and pre-hydration markup correctly centred; the animations
+ * override them as soon as they attach, before the first paint.
+ */
+const ClockHands: React.FC<ClockHandsProps> = memo(({ theme, timeZone }) => {
     const activeTheme = CLOCK_THEMES[theme];
-
-    // Degrees calculation
-    const secondDegrees = seconds * 6;
-    const minuteDegrees = minutes * 6;
-    const hourDegrees = hours * 30;
+    const hands = useClockHands(timeZone);
 
     return (
         <div className="clock-hands-layer">
             {/* Hour Hand */}
             <div
+                ref={hands.hour}
                 className="clock-hand clock-hand--hour"
                 style={{
                     backgroundColor: activeTheme.colors.hands.hour,
                     boxShadow: activeTheme.colors.shadows.hand,
-                    transform: `translateX(-50%) rotate(${hourDegrees}deg)`,
+                    transform: 'translateX(-50%)',
                 }}
             >
                 <div
@@ -35,11 +40,12 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme 
 
             {/* Minute Hand */}
             <div
+                ref={hands.minute}
                 className="clock-hand clock-hand--minute"
                 style={{
                     backgroundColor: activeTheme.colors.hands.minute,
                     boxShadow: activeTheme.colors.shadows.hand,
-                    transform: `translateX(-50%) rotate(${minuteDegrees}deg)`,
+                    transform: 'translateX(-50%)',
                 }}
             >
                 <div
@@ -50,11 +56,9 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme 
 
             {/* Second Hand with Shadow */}
             <div
+                ref={hands.second}
                 className="clock-seconds-assembly"
-                style={{
-                    transform: `rotate(${secondDegrees}deg)`,
-                    transformOrigin: 'center center',
-                }}
+                style={{ transformOrigin: 'center center' }}
             >
                 {/* Main needle pointing UP (towards 12) */}
                 <div
@@ -95,6 +99,8 @@ const ClockHands: React.FC<ClockHandsProps> = ({ hours, minutes, seconds, theme 
             </div>
         </div>
     );
-};
+});
+
+ClockHands.displayName = 'ClockHands';
 
 export default ClockHands;

@@ -8,50 +8,91 @@ import timelapseLogo from './timelapse logo.png';
 
 type InstallTarget = 'react' | 'agent';
 
-const INSTALL_SNIPPETS: Record<InstallTarget, (theme: ClockThemeName) => string> = {
-  react: (theme) => `// Follow Clock_installation.md from GitHub.
-// Copy only its “Copy” paths. Exclude every “Do not copy” path.
-import Clock from './components/Clock';
+type SyntaxKind = 'comment' | 'keyword' | 'component' | 'function' | 'property' | 'string';
 
-export default function App() {
-  return <Clock theme="${theme}" timeZone="Asia/Chennai" />;
-}`,
-  agent: (theme) => `Add the Timelapse Clock to this React app.
+/** A slice of the snippet. `kind` only decides its colour. */
+interface SnippetToken {
+  text: string;
+  kind?: SyntaxKind;
+}
 
-Follow Clock_installation.md from github.com/asiffisa/Braun-analogue-clock.
-Copy only its “Copy” paths. Exclude every “Do not copy” path.
-
-<Clock theme="${theme}" timeZone="Asia/Chennai" />;`,
+/**
+ * One source of truth for both the highlighted block on screen and the text the
+ * copy button puts on the clipboard. Keeping these as two hand-written copies
+ * had already let them drift apart, so the copied snippet was not the snippet
+ * the visitor was reading.
+ */
+const INSTALL_SNIPPETS: Record<InstallTarget, (theme: ClockThemeName) => SnippetToken[]> = {
+  react: (theme) => [
+    { text: '// Follow Clock_installation.md from GitHub.', kind: 'comment' },
+    { text: '\n' },
+    { text: '// Copy only its “Copy” paths. Exclude every “Do not copy” path.', kind: 'comment' },
+    { text: '\n\n' },
+    { text: 'import', kind: 'keyword' },
+    { text: ' ' },
+    { text: 'Clock', kind: 'component' },
+    { text: ' ' },
+    { text: 'from', kind: 'keyword' },
+    { text: ' ' },
+    { text: "'./components/Clock'", kind: 'string' },
+    { text: ';\n\n' },
+    { text: 'export default function', kind: 'keyword' },
+    { text: ' ' },
+    { text: 'App', kind: 'function' },
+    { text: '() {\n  ' },
+    { text: 'return', kind: 'keyword' },
+    { text: ' <' },
+    { text: 'Clock', kind: 'component' },
+    { text: ' ' },
+    { text: 'theme', kind: 'property' },
+    { text: '=' },
+    { text: `"${theme}"`, kind: 'string' },
+    { text: ' ' },
+    { text: 'timeZone', kind: 'property' },
+    { text: '=' },
+    { text: '"Asia/Chennai"', kind: 'string' },
+    { text: ' />;\n}' },
+  ],
+  agent: (theme) => [
+    { text: 'Add the Timelapse Clock to this React app.\n\n' },
+    { text: 'Follow Clock_installation.md from github.com/asiffisa/Braun-analogue-clock.\n' },
+    { text: 'Copy only its “Copy” paths. Exclude every “Do not copy” path.\n\n' },
+    { text: '<' },
+    { text: 'Clock', kind: 'component' },
+    { text: ' ' },
+    { text: 'theme', kind: 'property' },
+    { text: '=' },
+    { text: `"${theme}"`, kind: 'string' },
+    { text: ' ' },
+    { text: 'timeZone', kind: 'property' },
+    { text: '=' },
+    { text: '"Asia/Chennai"', kind: 'string' },
+    { text: ' />;' },
+  ],
 };
 
-const ReactInstallSnippet: React.FC<{ theme: ClockThemeName }> = ({ theme }) => (
+const snippetToText = (tokens: SnippetToken[]) => tokens.map((token) => token.text).join('');
+
+const InstallSnippet: React.FC<{ tokens: SnippetToken[] }> = ({ tokens }) => (
   <>
-    <span className="syntax-comment">// Follow Clock_installation.md from GitHub.</span>{'\n'}
-    <span className="syntax-comment">// Copy only its “Copy” paths. Exclude every “Do not copy” path.</span>{'\n\n'}
-    <span className="syntax-keyword">import</span>{' '}
-    <span className="syntax-component">Clock</span>{' '}
-    <span className="syntax-keyword">from</span>{' '}
-    <span className="syntax-string">'./components/Clock'</span>;{'\n\n'}
-    <span className="syntax-keyword">export default function</span>{' '}
-    <span className="syntax-function">App</span>() {'{'}{'\n'}
-    {'  '}<span className="syntax-keyword">return</span>{' '}
-    {'<'}<span className="syntax-component">Clock</span>{' '}
-    <span className="syntax-property">theme</span>=<span className="syntax-string">"{theme}"</span>{' '}
-    <span className="syntax-property">timeZone</span>=<span className="syntax-string">"Asia/Chennai"</span>{' />'};{'\n'}
-    {'}'}
+    {tokens.map((token, index) =>
+      token.kind ? (
+        <span key={index} className={`syntax-${token.kind}`}>
+          {token.text}
+        </span>
+      ) : (
+        <React.Fragment key={index}>{token.text}</React.Fragment>
+      ),
+    )}
   </>
 );
 
-const AgentInstallSnippet: React.FC<{ theme: ClockThemeName }> = ({ theme }) => (
-  <>
-    Add the Timelapse Clock to this React app.{'\n\n'}
-    Follow Clock_installation.md from github.com/asiffisa/Braun-analogue-clock.{'\n'}
-    Copy only its “Copy” paths. Exclude every “Do not copy” path.{'\n\n'}
-    {'<'}<span className="syntax-component">Clock</span>{' '}
-    <span className="syntax-property">theme</span>=<span className="syntax-string">"{theme}"</span>{' '}
-    <span className="syntax-property">timeZone</span>=<span className="syntax-string">"Asia/Chennai"</span>{' />'};
-  </>
-);
+/**
+ * Mirrors the dark-theme wall URLs in index.css. They are only referenced under
+ * `.timelapse-page--dark`, so without this the browser would not start fetching
+ * them until the cord is actually pulled, leaving the room daylit mid-switch.
+ */
+const DARK_WALL_IMAGES = ['/plaster-wall-moonlight-matched.webp', '/plaster-wall-dark.webp'];
 
 // Tuned to the FeralUI reference feel: taut, responsive, and deep enough to read as a real pull.
 const PULLCORD_CONFIG: Partial<PullCordConfig> = {
@@ -69,11 +110,15 @@ const MOBILE_MONITOR = {
   bottomOffset: -34,
 } as const;
 
+type CopyState = 'idle' | 'copied' | 'failed';
+
 const App: React.FC = () => {
   const [theme, setTheme] = useState<ClockThemeName>('light');
   const [installTarget, setInstallTarget] = useState<InstallTarget>('agent');
-  const [copied, setCopied] = useState(false);
-  const [mobileMonitorScale, setMobileMonitorScale] = useState(MOBILE_MONITOR.maxScale);
+  const [copyState, setCopyState] = useState<CopyState>('idle');
+  // Explicit `number`: MOBILE_MONITOR is `as const`, so inference would pin this
+  // state to the literal type 0.58 and reject every value the observer computes.
+  const [mobileMonitorScale, setMobileMonitorScale] = useState<number>(MOBILE_MONITOR.maxScale);
   const copyResetTimerRef = useRef<number | undefined>(undefined);
   const wallSceneRef = useRef<HTMLElement>(null);
 
@@ -85,6 +130,27 @@ const App: React.FC = () => {
     },
     [],
   );
+
+  // Warm the moonlit wall once the page is idle, so the first cord pull swaps
+  // instantly instead of waiting on a cold fetch.
+  useEffect(() => {
+    const prefetch = () => {
+      for (const src of DARK_WALL_IMAGES) {
+        const image = new Image();
+        image.decoding = 'async';
+        image.src = src;
+      }
+    };
+
+    const idle = window.requestIdleCallback;
+    if (typeof idle === 'function') {
+      const handle = idle(prefetch, { timeout: 2500 });
+      return () => window.cancelIdleCallback?.(handle);
+    }
+
+    const handle = window.setTimeout(prefetch, 1200);
+    return () => window.clearTimeout(handle);
+  }, []);
 
   useEffect(() => {
     const wallScene = wallSceneRef.current;
@@ -126,9 +192,12 @@ const App: React.FC = () => {
   };
 
   const copySnippet = async () => {
-    const snippet = INSTALL_SNIPPETS[installTarget](theme);
+    const snippet = snippetToText(INSTALL_SNIPPETS[installTarget](theme));
+    let outcome: CopyState = 'copied';
 
     try {
+      // The async Clipboard API needs a secure context, so a plain-http or
+      // older browser still gets the selection-based fallback.
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(snippet);
       } else {
@@ -139,24 +208,37 @@ const App: React.FC = () => {
         textarea.style.opacity = '0';
         document.body.appendChild(textarea);
         textarea.select();
-        document.execCommand('copy');
+        // iOS ignores select() on a readonly textarea unless the range is explicit.
+        textarea.setSelectionRange(0, snippet.length);
+        const succeeded = document.execCommand('copy');
         textarea.remove();
+        if (!succeeded) outcome = 'failed';
       }
-
-      setCopied(true);
-      if (copyResetTimerRef.current !== undefined) {
-        window.clearTimeout(copyResetTimerRef.current);
-      }
-      copyResetTimerRef.current = window.setTimeout(() => {
-        setCopied(false);
-        copyResetTimerRef.current = undefined;
-      }, 4000);
     } catch {
-      setCopied(false);
+      // Permission denied, or no clipboard at all. Say so rather than looking
+      // like the button simply did nothing.
+      outcome = 'failed';
     }
+
+    setCopyState(outcome);
+    if (copyResetTimerRef.current !== undefined) {
+      window.clearTimeout(copyResetTimerRef.current);
+    }
+    copyResetTimerRef.current = window.setTimeout(() => {
+      setCopyState('idle');
+      copyResetTimerRef.current = undefined;
+    }, 4000);
   };
 
+  const copied = copyState === 'copied';
+  const snippetTokens = INSTALL_SNIPPETS[installTarget](theme);
   const nextThemeLabel = theme === 'light' ? 'dark' : 'light';
+  const copyStatusMessage =
+    copyState === 'copied'
+      ? 'Copied to clipboard'
+      : copyState === 'failed'
+        ? 'Could not copy automatically. Select the code and copy it manually.'
+        : '';
   const monitorStyle = {
     '--monitor-scale': mobileMonitorScale,
     '--monitor-bottom': `${MOBILE_MONITOR.sourceHeight * (MOBILE_MONITOR.maxScale - mobileMonitorScale) + MOBILE_MONITOR.bottomOffset}px`,
@@ -222,6 +304,7 @@ const App: React.FC = () => {
                     type="button"
                     className={`copy-button${copied ? ' is-copied' : ''}`}
                     aria-label={`Copy ${installTarget} code`}
+                    title={copyState === 'failed' ? 'Could not copy automatically' : `Copy ${installTarget} code`}
                     onClick={copySnippet}
                   >
                     {copied ? (
@@ -229,17 +312,20 @@ const App: React.FC = () => {
                     ) : (
                       <Square2StackIcon className="copy-button__icon" strokeWidth={1.8} aria-hidden="true" />
                     )}
-                    <span className="visually-hidden" aria-live="polite">
-                      {copied ? 'Copied' : ''}
-                    </span>
                   </button>
                 </div>
-                <pre aria-label={`${installTarget} code example`} aria-live="polite">
+                {/* The snippet itself is not a live region: it changes whenever the
+                    cord is pulled, and re-reading a code block aloud on every
+                    theme switch is noise. Only the copy result is announced. */}
+                <pre aria-label={`${installTarget} code example`}>
                   <code>
-                    {installTarget === 'react' ? <ReactInstallSnippet theme={theme} /> : <AgentInstallSnippet theme={theme} />}
+                    <InstallSnippet tokens={snippetTokens} />
                     <span className="code-cursor" aria-hidden="true" />
                   </code>
                 </pre>
+                <p className="visually-hidden" role="status">
+                  {copyStatusMessage}
+                </p>
               </div>
             </div>
           </div>

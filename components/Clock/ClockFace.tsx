@@ -8,6 +8,22 @@ interface ClockFaceProps {
     theme: ClockThemeName;
 }
 
+/** The dial never changes shape, so its 60 positions are trigonometry done once at module load. */
+const DIAL_MARKS = Array.from({ length: 60 }, (_, index) => {
+    const angle = index * 6;
+    const radians = (angle * Math.PI) / 180;
+
+    return {
+        index,
+        angle,
+        isHour: index % 5 === 0,
+        hour: index === 0 ? 12 : index / 5,
+        left: `${50 + Math.sin(radians) * CLOCK_DIMENSIONS.radiusPercent}%`,
+        top: `${50 - Math.cos(radians) * CLOCK_DIMENSIONS.radiusPercent}%`,
+        transform: `translate(-50%, -50%) rotate(${angle}deg)`,
+    };
+});
+
 const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
     const activeTheme = CLOCK_THEMES[theme];
     const rimImage = theme === 'dark' ? blackRimImg : silverRimImg;
@@ -33,7 +49,8 @@ const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
                 <div className="clock-logo">
                     <img
                         src={braunLogo}
-                        alt="Braun Logo"
+                        alt=""
+                        aria-hidden="true"
                         className="clock-logo__image"
                         style={{
                             filter: activeTheme.colors.logoFilter,
@@ -41,44 +58,33 @@ const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
                         }}
                     />
                 </div>
-                {Array.from({ length: 60 }).map((_, i) => {
-                    const isHour = i % 5 === 0;
-                    const angle = i * 6;
-                    const angleInRadians = (angle * Math.PI) / 180;
-                    const left = 50 + Math.sin(angleInRadians) * CLOCK_DIMENSIONS.radiusPercent;
-                    const top = 50 - Math.cos(angleInRadians) * CLOCK_DIMENSIONS.radiusPercent;
-
-                    if (isHour) {
-                        const num = i === 0 ? 12 : i / 5;
-                        return (
-                            <div
-                                key={i}
-                                className="clock-number"
-                                style={{
-                                    left: `${left}%`,
-                                    top: `${top}%`,
-                                    color: activeTheme.colors.numbers,
-                                }}
-                            >
-                                {num}
-                            </div>
-                        );
-                    }
-
-                    return (
+                {DIAL_MARKS.map((mark) =>
+                    mark.isHour ? (
                         <div
-                            key={i}
+                            key={mark.index}
+                            className="clock-number"
+                            style={{
+                                left: mark.left,
+                                top: mark.top,
+                                color: activeTheme.colors.numbers,
+                            }}
+                        >
+                            {mark.hour}
+                        </div>
+                    ) : (
+                        <div
+                            key={mark.index}
                             className="clock-tick"
                             style={{
-                                left: `${left}%`,
-                                top: `${top}%`,
+                                left: mark.left,
+                                top: mark.top,
                                 backgroundColor: activeTheme.colors.ticks,
                                 opacity: activeTheme.colors.tickOpacity,
-                                transform: `translate(-50%, -50%) rotate(${angle}deg)`,
+                                transform: mark.transform,
                             }}
                         />
-                    );
-                })}
+                    ),
+                )}
             </div>
         </div>
     );

@@ -23,14 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Local visual QA captures and unused wall-image explorations
+# Local visual QA captures and unused wall-image explorations.
+# These live outside public/ on purpose: everything in public/ is copied
+# verbatim into the deploy, so unshipped source art must not sit there.
 /design-evidence/
-/public/plaster-wall-moonlight-blue.png
-/public/plaster-wall-moonlight-cropped.png
-/public/plaster-wall-moonlight-final.png
-/public/plaster-wall-moonlight-seamless.png
-/public/plaster-wall-moonlight.png
-/public/plaster-wall-morning-final.png
-/public/plaster-wall-morning-seamless.png
-/public/plaster-wall-morning.png
 .vercel

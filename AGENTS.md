@@ -25,6 +25,8 @@ The public API is intentionally small:
 <Clock theme="light" />
 <Clock theme="dark" />
 <Clock theme="dark" timeZone="America/New_York" />
+<Clock theme="light" maxSize={640} />
+<Clock theme="light" ariaLabel="Office wall clock, Chennai" />
 ```
 
 `App.tsx`, the monitor, plaster wall, and `PullCord` are playground-only. Do not copy them into a consumer app unless the user explicitly asks for the complete demo.
@@ -35,9 +37,11 @@ The public API is intentionally small:
 
 1. Preserve the clock assets and the matching CSS; they are part of the visual component, not optional decoration.
 2. Preserve the second-hand tail and its shared yellow centre cap. They are one physical mechanism and must layer above the hand shadows.
-3. Keep `ClockGlass.tsx` above the full clock mechanism. Tune glass values only through `CLOCK_GLASS` in `constants.ts`.
+3. Keep `ClockGlass.tsx` above the full clock mechanism. Tune glass values only through `CLOCK_GLASS` in `constants.ts`. Its lens texture is supplied as a pre-rasterized `feImage`, not a live `feTurbulence`: the noise is static but sat in the backdrop path, so it was being rebuilt on every frame the hands moved. Do not inline `feTurbulence`/`feGaussianBlur` back into that filter. If you change `baseFrequency`, the seed, or `surfaceSoftness`, change them in `buildNoiseHref` so the texture and the displacement stay in agreement.
 4. Do not add `pullcord` as a dependency for a clock-only integration.
 5. `Clock` defaults to Indian Standard Time (`Asia/Chennai`, UTC+05:30). Timelapse normalizes this friendly alias to the official browser zone `Asia/Kolkata`. Use its explicit `timeZone` prop for another standard IANA time-zone name; this preserves daylight-saving changes where applicable.
+6. The hands are driven by the Web Animations API in `useClockHands.ts`, not by React state. Never reintroduce a per-frame `setState` or an inline `transform` on a hand — both would take the rotation off the compositor and put a render in every frame. Re-anchoring to real time belongs in `useClockSync`.
+7. `Clock` is `role="img"` with the current time as its label. Keep dial parts decorative; do not give the numerals or logo their own accessible names.
 
 ## Framer handoff
 

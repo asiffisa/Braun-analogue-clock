@@ -8,7 +8,8 @@ flowchart TD
     Clock --> Hands[ClockHands: hour, minute, second]
     Clock --> Glass[ClockGlass: refraction and reflections]
     Clock --> Theme[constants.ts: theme and glass values]
-    Clock --> Time[useTimeZone → Intl.DateTimeFormat]
+    Hands --> Motion[useClockHands: Web Animations API]
+    Motion --> Time[useClockSync → Intl.DateTimeFormat]
 ```
 
 ## Two clear layers
@@ -30,4 +31,10 @@ flowchart TD
 
 ## Time flow
 
-`useTimeZone` updates from `requestAnimationFrame` and reads the requested time zone through `Intl.DateTimeFormat`, so daylight-saving rules are handled by the browser. `Clock` defaults to Timelapse's `Asia/Chennai` alias, normalized to the official `Asia/Kolkata` zone (IST, UTC+05:30). `Clock.tsx` converts the current time into continuous hour, minute, and seconds rotations, so the seconds hand sweeps instead of jumping.
+A clock is a linear function of time, so Timelapse does no per-frame work at all. `useClockHands` gives each hand one infinite rotation (60s, 60min, 12h) through the Web Animations API and seeks its playhead to the current wall-clock position. The browser's animation engine owns the sweep from there: no React renders, no allocations, and no main-thread JavaScript per frame, so the hands stay smooth even while the main thread is busy.
+
+`useClockSync` re-seeks every hand on a shared checkpoint that lands on :00 and :30 of each minute, and whenever the tab is restored. An animation timeline is monotonic while wall-clock time is not, so this is what absorbs daylight-saving jumps, NTP corrections, and sleep/resume. All clocks on a page share one timer.
+
+`readClockTime` reads the requested zone through `Intl.DateTimeFormat`, so daylight-saving rules are handled by the browser. `Clock` defaults to Timelapse's `Asia/Chennai` alias, normalized to the official `Asia/Kolkata` zone (IST, UTC+05:30). An unrecognized zone falls back to the device's own zone with one warning rather than throwing through render.
+
+Under `prefers-reduced-motion`, the seconds hand keeps perfect time but trades its sweep for the once-a-second tick of a quartz movement.

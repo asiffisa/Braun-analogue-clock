@@ -372,7 +372,7 @@ button {
 .wall-scene {
     position: relative;
     --clock-top: clamp(54px, 8vw, 92px);
-    --clock-size: clamp(230px, 29vw, 326px);
+    --clock-size: clamp(230px, 29vw, 312px);
     --clock-monitor-gap: 120px;
     --monitor-height: 374px;
     width: 100%;
@@ -383,15 +383,29 @@ button {
     );
     display: block;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 36px;
+    border: none;
+    border-radius: 40px;
     /* Keep the approved square composition uncropped; the original plaster fills the masked lower edge. */
     background-color: #e7e2d9;
-    background-image: url('/plaster-wall-morning-cropped.png'), url('/plaster-wall-daylight.png');
+    background-image: url('/plaster-wall-morning-cropped.webp'), url('/plaster-wall-daylight.webp');
     background-position: center top, center;
     background-size: 100% auto, cover;
     background-repeat: no-repeat;
     box-shadow: 0 20px 48px rgba(0, 0, 0, 0.24);
+}
+
+.wall-scene::before {
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    content: '';
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(180deg, rgba(129, 124, 115, 0.45) 0%, rgba(0, 0, 0, 0.45) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
 }
 
 .wall-scene::after {
@@ -405,9 +419,8 @@ button {
 }
 
 .timelapse-page--dark .wall-scene {
-    border-color: rgba(216, 211, 199, 0.38);
     background-color: #4b4740;
-    background-image: url('/plaster-wall-moonlight-matched.png'), url('/plaster-wall-dark.png');
+    background-image: url('/plaster-wall-moonlight-matched.webp'), url('/plaster-wall-dark.webp');
     background-position: center top, center;
     background-size: 100% auto, cover;
     background-repeat: no-repeat;
@@ -439,7 +452,7 @@ button {
     --pullcord-right: clamp(38px, calc(8% + 10px), 102px);
     --pullcord-z: 7;
     --pullcord-ink: rgba(52, 49, 44, 0.82);
-    transform: translateX(-16px);
+    transform: translateX(-32px);
 }
 
 .wall-scene .pull-cord svg {
@@ -577,14 +590,14 @@ button {
 
     .wall-scene {
         --clock-top: 48px;
-        --clock-size: calc(min(58vw, 270px) - 26px);
+        --clock-size: clamp(160px, calc(66.6667vw - 70px), 220px);
         --clock-monitor-gap: 55.2px;
         --monitor-height: 218px;
         height: max(
             500px,
             calc(var(--clock-top) + var(--clock-size) + var(--clock-monitor-gap) + var(--monitor-height))
         );
-        border-radius: 30px;
+        border-radius: 34px;
     }
 
     .wall-clock {

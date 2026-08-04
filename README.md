@@ -11,7 +11,7 @@ The included demo turns the component into a small physical scene:
 - A live pull cord that switches the entire room and clock theme.
 - A foreground monitor with Agent and React installation instructions, source-like syntax colour, copy control, and a blinking terminal cursor.
 
-The wall surfaces are real image assets (`public/plaster-wall-morning-cropped.png` and `public/plaster-wall-moonlight-matched.png`), not CSS colour overlays. This keeps the plant, pegboard, texture, and lighting believable in both modes while the monitor stays visually bright in the dimmed room.
+The wall surfaces are real image assets (`public/plaster-wall-morning-cropped.webp` and `public/plaster-wall-moonlight-matched.webp`), not CSS colour overlays. This keeps the plant, pegboard, texture, and lighting believable in both modes while the monitor stays visually bright in the dimmed room.
 
 ## Use it today
 
@@ -33,9 +33,17 @@ The public component API is deliberately small:
 
 // Use any IANA time-zone name when needed.
 <Clock theme="dark" timeZone="America/New_York" />
+
+// Grow past the default 400px cap, or replace the spoken description.
+<Clock theme="light" maxSize={640} />
+<Clock theme="light" ariaLabel="Office wall clock, Chennai" />
 ```
 
-`timeZone` is optional and defaults to `Asia/Chennai` (Timelapse's friendly alias for the official browser zone `Asia/Kolkata`). It also accepts standard IANA time-zone names, so daylight-saving changes are handled by the browser when applicable.
+`timeZone` is optional and defaults to `Asia/Chennai` (Timelapse's friendly alias for the official browser zone `Asia/Kolkata`). It also accepts standard IANA time-zone names, so daylight-saving changes are handled by the browser when applicable. A name the browser does not recognize falls back to the device's own zone and warns once, rather than throwing during render.
+
+`maxSize` (default `400`) is the largest edge the clock will grow to; it always stays square and fluid below that. `ariaLabel` overrides the default announcement, which is the time the clock is currently showing.
+
+The clock does no per-frame work: the hands are one continuous rotation each, run by the browser's animation engine and re-anchored to real time on a shared 30-second checkpoint. Rendering many clocks on one page costs no more timers than rendering one. Under `prefers-reduced-motion` the seconds hand ticks once a second instead of sweeping.
 
 The pull cord belongs to this playground, not to the reusable clock. It uses the separate `pullcord` dependency.
 
@@ -105,11 +113,11 @@ Timelapse is a static Vite site. It needs no environment variables or server run
 
 - `components/Clock.tsx` — reusable component with `theme` and optional `timeZone` props.
 - `components/Clock/` — dial, hands, glass, palette, self-contained `clock.css`, and rim/logo assets.
-- `hooks/useTimeZone.ts` — smooth, time-zone-aware clock updates.
+- `hooks/useTimeZone.ts` — time-zone resolution and the shared re-sync heartbeat that keeps every clock anchored to real time.
 - `Clock_installation.md` — exact component-only copy and exclusion manifest.
 - `App.tsx` — demo wall, monitor, installation tabs, and pull-cord interaction.
 - `index.css` — playground layout, responsive scene styling, and clock styling.
-- `public/plaster-wall-morning-cropped.png` — approved morning wall with the hanging vine, seamless plaster, and deliberately edge-masked pegboard.
-- `public/plaster-wall-moonlight-matched.png` — composition-matched moonlit wall with the pegboard lamp subtly on.
+- `public/plaster-wall-morning-cropped.webp` — approved morning wall with the hanging vine, seamless plaster, and deliberately edge-masked pegboard.
+- `public/plaster-wall-moonlight-matched.webp` — composition-matched moonlit wall with the pegboard lamp subtly on.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the code map and [AGENTS.md](./AGENTS.md) for a concise agent handoff.
