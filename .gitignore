@@ -28,3 +28,6 @@ dist-ssr
 # verbatim into the deploy, so unshipped source art must not sit there.
 /design-evidence/
 .vercel
+
+# Personal artwork kept only on the local machine.
+asif sign.png

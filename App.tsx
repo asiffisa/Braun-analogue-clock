@@ -4,8 +4,6 @@ import { PullCord, type PullCordConfig } from 'pullcord';
 import 'pullcord/pullcord.css';
 import Clock from './components/Clock';
 import type { ClockThemeName } from './components/Clock/constants';
-import timelapseLogo from './timelapse logo.png';
-import asifSign from './asif sign.png';
 
 type InstallTarget = 'react' | 'agent';
 
@@ -276,7 +274,7 @@ const App: React.FC = () => {
       <div className="timelapse-frame">
         <header className="site-header">
           <a className="site-logo-link" href="#playground" aria-label="Timelapse home">
-            <img src={timelapseLogo} alt="Timelapse Logo" className="header-logo" />
+            <img src="/icon.png" alt="Timelapse Logo" className="header-logo" />
           </a>
         </header>
 
@@ -374,7 +372,7 @@ const App: React.FC = () => {
           <div className="footer-divider" aria-hidden="true" />
           <div className="footer-content">
             <div className="footer-info">
-              <img src={asifSign} alt="Asif Signature" className="footer-signature" />
+              <p className="footer-built">Built by Asif</p>
               <a
                 href="https://cradlstudio.in/"
                 target="_blank"
