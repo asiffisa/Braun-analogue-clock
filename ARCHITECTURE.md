@@ -1,4 +1,4 @@
-# Timelapse Clock: architecture
+# Timelapse: architecture
 
 ```mermaid
 flowchart TD

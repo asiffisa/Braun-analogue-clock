@@ -1,4 +1,4 @@
-# Timelapse Clock: copy manifest
+# Timelapse: copy manifest
 
 Use this file as the packing list when adding only the reusable clock to another React project.
 

@@ -1,4 +1,4 @@
-# Timelapse Clock
+# Timelapse
 
 A Braun-inspired analogue clock for React. Drop it into a page and it keeps real time, in any time zone, with a smooth sweeping second hand.
 
