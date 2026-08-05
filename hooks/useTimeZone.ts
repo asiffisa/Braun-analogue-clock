@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect } from 'react';
 
-/** Timelapse's friendly India default. It is normalized to the browser's official India zone below. */
+/** Timeless's friendly India default. It is normalized to the browser's official India zone below. */
 export const IST_TIME_ZONE = 'Asia/Chennai';
 
 const TIME_ZONE_ALIASES: Record<string, string> = {
@@ -28,7 +28,7 @@ const createFormatter = (timeZone: string | undefined) =>
   });
 
 /**
- * Maps Timelapse's aliases onto real IANA names and checks the browser actually
+ * Maps Timeless's aliases onto real IANA names and checks the browser actually
  * knows the zone.
  *
  * `new Intl.DateTimeFormat({ timeZone })` throws a RangeError on an unknown
@@ -52,7 +52,7 @@ export const resolveTimeZone = (timeZone: string): string | undefined => {
     if (!warnedZones.has(timeZone)) {
       warnedZones.add(timeZone);
       console.warn(
-        `[Timelapse] "${timeZone}" is not a time zone this browser recognizes. Falling back to this device's zone.`,
+        `[Timeless] "${timeZone}" is not a time zone this browser recognizes. Falling back to this device's zone.`,
       );
     }
   }

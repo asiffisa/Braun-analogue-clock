@@ -8,7 +8,7 @@ import './Clock/clock.css';
 
 export interface ClockProps {
   theme?: ClockThemeName;
-  /** An IANA time-zone name, or Timelapse's "Asia/Chennai" India alias. */
+  /** An IANA time-zone name, or Timeless's "Asia/Chennai" India alias. */
   timeZone?: string;
   /** Largest edge the clock will grow to, in pixels. It always stays square. */
   maxSize?: number;

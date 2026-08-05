@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorBounda
   }
 
   componentDidCatch(error: unknown) {
-    console.error('[Timelapse] Render failed.', error);
+    console.error('[Timeless] Render failed.', error);
   }
 
   render() {
@@ -40,7 +40,7 @@ class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorBounda
         }}
       >
         <p>
-          Something went wrong loading Timelapse.{' '}
+          Something went wrong loading Timeless.{' '}
           <a href="/" style={{ color: '#e9aa17' }}>
             Reload the page
           </a>

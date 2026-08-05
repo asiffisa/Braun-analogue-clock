@@ -1,4 +1,4 @@
-# Timelapse integration guide
+# Timeless integration guide
 
 ## Commands
 
@@ -39,7 +39,7 @@ The public API is intentionally small:
 2. Preserve the second-hand tail and its shared yellow centre cap. They are one physical mechanism and must layer above the hand shadows.
 3. Keep `ClockGlass.tsx` above the full clock mechanism. Tune glass values only through `CLOCK_GLASS` in `constants.ts`. Its `feTurbulence` is deliberately generated live rather than pre-rasterized into an `feImage`: a baked texture has to be sized for the largest clock, and at the 160-220px the dial drops to on phones that costs more to sample than regenerating the noise at the real size. Measure on a phone before changing it.
 4. Do not add `pullcord` as a dependency for a clock-only integration.
-5. `Clock` defaults to Indian Standard Time (`Asia/Chennai`, UTC+05:30). Timelapse normalizes this friendly alias to the official browser zone `Asia/Kolkata`. Use its explicit `timeZone` prop for another standard IANA time-zone name; this preserves daylight-saving changes where applicable.
+5. `Clock` defaults to Indian Standard Time (`Asia/Chennai`, UTC+05:30). Timeless normalizes this friendly alias to the official browser zone `Asia/Kolkata`. Use its explicit `timeZone` prop for another standard IANA time-zone name; this preserves daylight-saving changes where applicable.
 6. The hands are driven by the Web Animations API in `useClockHands.ts`, not by React state. Never reintroduce a per-frame `setState` or an inline `transform` on a hand — both would take the rotation off the compositor and put a render in every frame. Re-anchoring to real time belongs in `useClockSync`.
 7. `Clock` is `role="img"` with the current time as its label. Keep dial parts decorative; do not give the numerals or logo their own accessible names.
 

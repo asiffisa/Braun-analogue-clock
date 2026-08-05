@@ -1,4 +1,4 @@
-# Timelapse: architecture
+# Timeless: architecture
 
 ```mermaid
 flowchart TD

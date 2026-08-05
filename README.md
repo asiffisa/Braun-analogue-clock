@@ -1,4 +1,4 @@
-# Timelapse
+# Timeless
 
 A Braun-inspired analogue clock for React. Drop it into a page and it keeps real time, in any time zone, with a smooth sweeping second hand.
 
@@ -94,7 +94,7 @@ A name the browser does not recognize will not crash your app — the clock fall
 
 Point your agent at the repository:
 
-> Add the Timelapse Clock to this React app. Follow `Clock_installation.md` from `github.com/asiffisa/Braun-analogue-clock` — copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />`.
+> Add the Timeless Clock to this React app. Follow `Clock_installation.md` from `github.com/asiffisa/Braun-analogue-clock` — copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />`.
 
 [AGENTS.md](./AGENTS.md) holds the integration contract and the visual details that must not regress.
 

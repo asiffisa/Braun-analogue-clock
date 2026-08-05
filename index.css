@@ -81,7 +81,7 @@ button {
     transition: opacity 420ms ease;
 }
 
-.timelapse-page--dark .monitor__screen::after {
+.timeless-page--dark .monitor__screen::after {
     opacity: 0.35;
 }
 
@@ -297,19 +297,19 @@ button {
 }
 
 /* Single-object landing scene ------------------------------------------------ */
-.timelapse-page {
+.timeless-page {
     min-height: 100vh;
     padding: clamp(12px, 2.5vw, 36px) clamp(18px, 4vw, 48px);
     color: #e8e7e1;
     background: linear-gradient(180deg, #101110 0%, #000000 100%);
 }
 
-.timelapse-page--dark {
+.timeless-page--dark {
     color: #e8e7e1;
     background: linear-gradient(180deg, #101110 0%, #000000 100%);
 }
 
-.timelapse-frame {
+.timeless-frame {
     width: min(800px, 100%);
     min-height: 0;
     margin: 0 auto;
@@ -320,7 +320,7 @@ button {
     box-shadow: none;
 }
 
-.timelapse-page .timelapse-frame {
+.timeless-page .timeless-frame {
     box-shadow: none;
 }
 
@@ -419,7 +419,7 @@ button {
     transition: background-color 500ms ease;
 }
 
-.timelapse-page--dark .wall-scene {
+.timeless-page--dark .wall-scene {
     background-color: #4b4740;
     background-image: url('/plaster-wall-moonlight-matched.webp'), url('/plaster-wall-dark.webp');
     background-position: center top, center;
@@ -427,7 +427,7 @@ button {
     background-repeat: no-repeat;
 }
 
-.timelapse-page--dark .wall-scene::after {
+.timeless-page--dark .wall-scene::after {
     /* Moonlight is baked into the approved wall image; retain only a trace of room dimming. */
     background: rgba(20, 21, 18, 0.08);
 }
@@ -442,7 +442,7 @@ button {
     filter: drop-shadow(16px 20px 17px rgba(42, 37, 29, 0.26));
 }
 
-.timelapse-page--dark .wall-clock {
+.timeless-page--dark .wall-clock {
     filter: drop-shadow(16px 20px 18px rgba(0, 0, 0, 0.48));
 }
 
@@ -466,7 +466,7 @@ button {
     stroke-width: 2px;
 }
 
-.timelapse-page--dark .wall-scene .pull-cord {
+.timeless-page--dark .wall-scene .pull-cord {
     --pullcord-ink: rgba(213, 209, 196, 0.7);
     filter: brightness(0.72);
 }
@@ -699,7 +699,7 @@ button {
         font-size: 9px;
     }
 
-    .timelapse-page {
+    .timeless-page {
         padding: 20px 14px;
     }
 

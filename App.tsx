@@ -53,7 +53,7 @@ const INSTALL_SNIPPETS: Record<InstallTarget, (theme: ClockThemeName) => Snippet
     { text: ' />;\n}' },
   ],
   agent: (theme) => [
-    { text: 'Add the Timelapse Clock to this React app.\n\n' },
+    { text: 'Add the Timeless Clock to this React app.\n\n' },
     { text: 'Follow Clock_installation.md from github.com/asiffisa/Braun-analogue-clock.\n' },
     { text: 'Copy only its “Copy” paths. Exclude every “Do not copy” path.\n\n' },
     { text: '<' },
@@ -88,7 +88,7 @@ const InstallSnippet: React.FC<{ tokens: SnippetToken[] }> = ({ tokens }) => (
 
 /**
  * Mirrors the dark-theme wall URLs in index.css. They are only referenced under
- * `.timelapse-page--dark`, so without this the browser would not start fetching
+ * `.timeless-page--dark`, so without this the browser would not start fetching
  * them until the cord is actually pulled, leaving the room daylit mid-switch.
  */
 const DARK_WALL_IMAGES = ['/plaster-wall-moonlight-matched.webp', '/plaster-wall-dark.webp'];
@@ -109,8 +109,8 @@ const CORD_SCROLL_SWING = {
   maxAngle: 3,
   /** Spring return strength to center */
   stiffness: 0.08,
-  /** Energy absorption rate per frame */
-  damping: 0.92,
+  /** Energy absorption rate per frame (lower = stops oscillating faster) */
+  damping: 0.82,
 } as const;
 
 const MOBILE_MONITOR = {
@@ -348,11 +348,11 @@ const App: React.FC = () => {
   } as React.CSSProperties;
 
   return (
-    <main className={`timelapse-page timelapse-page--${theme}`}>
-      <div className="timelapse-frame">
+    <main className={`timeless-page timeless-page--${theme}`}>
+      <div className="timeless-frame">
         <header className="site-header">
           <a className="site-logo-link" href="#playground" aria-label="Timelapse home">
-            <img src="/icon.png" alt="Timelapse Logo" className="header-logo" />
+            <img src="/timelapse logo.png" alt="Timelapse Logo" className="header-logo" />
           </a>
         </header>
 
@@ -382,7 +382,7 @@ const App: React.FC = () => {
                     <span />
                     <span />
                   </div>
-                  <span className="monitor__statusbar-title">timelapse / install</span>
+                  <span className="monitor__statusbar-title">timeless / install</span>
                 </div>
                 <div className="monitor__toolbar">
                   <div className="install-tabs" aria-label="Installation format">
