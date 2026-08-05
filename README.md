@@ -4,7 +4,11 @@
 
 A Braun-inspired analogue clock for React. Drop it into a page and it keeps real time, in any time zone, with a smooth sweeping second hand.
 
-**Tags:** `react` · `typescript` · `analogue-clock` · `wall-clock` · `braun-inspired` · `reusable-component` · `time-zones` · `web-animations-api` · `responsive-design` · `open-source`
+[![React 19.2.8](https://img.shields.io/badge/React-19.2.8-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Vite 6.4.3](https://img.shields.io/badge/Vite-6.4.3-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![TypeScript 5.8.3](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Web Animations API](https://img.shields.io/badge/Web%20Animations%20API-compositor--driven-6B7280)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API)
+[![License MIT](https://img.shields.io/badge/License-MIT-84CC16)](./LICENSE)
 
 ## Features
 
