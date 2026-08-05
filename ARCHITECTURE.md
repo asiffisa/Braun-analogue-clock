@@ -12,7 +12,7 @@ flowchart TD
 
 ## The clock component
 
-`components/Clock.tsx` reads the current time, calculates the hand angles, and assembles the dial, hands, rim, and glass layers. It accepts `theme="light" | "dark"`, an optional `timeZone`, `maxSize`, and `ariaLabel`. It imports its own `components/Clock/clock.css` and has no outer or background shadow — that shadow belongs to whatever page places the clock.
+`components/Clock.tsx` assembles the dial, hands, rim, and glass layers. It accepts `theme="light" | "dark"`, an optional `timeZone`, `maxSize`, and `ariaLabel`. Blank or whitespace-only `timeZone` and `ariaLabel` values are treated as omitted, which keeps no-code controls from creating warnings or an empty accessible name. It imports its own `components/Clock/clock.css` and has no outer or background shadow — that shadow belongs to whatever page places the clock.
 
 - `ClockFace.tsx` — static dial details and the rim image.
 - `ClockHands.tsx` — the moving hands. The yellow tail and centre cap are intentionally layered as one mechanism.
@@ -28,3 +28,9 @@ A clock is a linear function of time, so the component does no per-frame work at
 `useClockSync` re-seeks every hand on a shared checkpoint that lands on :00 and :30 of each minute, and whenever the tab is restored. An animation timeline is monotonic while wall-clock time is not, so this is what absorbs daylight-saving jumps, NTP corrections, and sleep/resume. All clocks on a page share one timer.
 
 `readClockTime` reads the requested zone through `Intl.DateTimeFormat`, so daylight-saving rules are handled by the browser. `Clock` defaults to the `Asia/Chennai` alias, normalized to the official `Asia/Kolkata` zone (IST, UTC+05:30). An unrecognized zone falls back to the device's own zone with one warning rather than throwing through render.
+
+The time and accessible-label formatters are cached per resolved time zone. This avoids allocating a new `Intl.DateTimeFormat` every time the screen-reader label refreshes.
+
+## Consumer isolation
+
+The copy-in stylesheet uses `timeless-clock-*` selectors, custom properties, and glass filter IDs. This gives the component its own namespace when it is copied into an app with existing generic `.clock-*` rules.

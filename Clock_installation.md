@@ -10,7 +10,7 @@ Use the React packing list for a normal bundled app. Framer needs the adaptation
 - `components/Clock/`
 - `hooks/useTimeZone.ts`
 
-`Clock.tsx` imports its own CSS, SVG, and WebP rim assets from these paths. Keep the filenames and relative directory structure intact.
+`Clock.tsx` imports its own CSS, SVG, and WebP rim assets from these paths. Keep the filenames and relative directory structure intact, including `rim-silver.webp` and `rim-black.webp`.
 
 ### Do not copy
 

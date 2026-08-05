@@ -19,6 +19,7 @@ A Braun-inspired analogue clock for React. Drop it into a page and it keeps real
 - **Always accurate.** The hands re-anchor to real time twice a minute, so they survive daylight-saving jumps, clock corrections, and a laptop waking from sleep.
 - **Fluid and square.** Fills its container up to a size you choose, and never distorts.
 - **Screen-reader friendly.** Announces itself as the time it is showing, not as a pile of loose numbers.
+- **Safe in visual editors.** Blank text fields fall back to the standard time zone and automatic accessible label.
 - **Self-contained.** One folder plus one hook. Its only dependency is React.
 
 ## Installation
@@ -55,7 +56,7 @@ Framer needs a one-file Code Component adaptation rather than the React copy-pas
 
 - **React 18 or newer**
 - A bundler that can import `.css`, `.svg`, and `.webp` files — Vite, Next.js, and Create React App all do this out of the box
-- TypeScript, or convert the copied `.tsx`/`.ts` files to JavaScript by stripping the types
+- TypeScript with strict mode enabled, or convert the copied `.tsx`/`.ts` files to JavaScript by stripping the types
 
 ## Usage
 
@@ -78,9 +79,9 @@ Framer needs a one-file Code Component adaptation rather than the React copy-pas
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
 | `theme` | `"light" \| "dark"` | `"light"` | Which palette to use. |
-| `timeZone` | `string` | `"Asia/Chennai"` | Any IANA time-zone name. |
+| `timeZone` | `string` | `"Asia/Chennai"` | Any IANA time-zone name. Blank or whitespace falls back to this default. |
 | `maxSize` | `number` | `400` | Largest edge in pixels. The clock fills its container up to this, always square. |
-| `ariaLabel` | `string` | the current time | Overrides what screen readers announce. |
+| `ariaLabel` | `string` | the current time | Overrides what screen readers announce. Blank or whitespace uses the automatic time label. |
 
 ### Sizing
 
@@ -102,6 +103,8 @@ The default is `"Asia/Chennai"`, a friendly alias for India Standard Time that r
 
 A name the browser does not recognize will not crash your app — the clock falls back to the viewer's own device time zone and logs one warning.
 
+For no-code fields such as Framer controls, a blank or whitespace-only `timeZone` is treated as omitted, so it safely uses the India default without a warning.
+
 ## Installing with a coding agent
 
 Point your agent at the repository:
@@ -120,7 +123,7 @@ Point your agent at the repository:
 | `components/Clock/useClockHands.ts` | Drives the hands and keeps them on time. |
 | `components/Clock/ClockGlass.tsx` | The convex glass lens over the dial. |
 | `components/Clock/constants.ts` | Both colour palettes and the glass tuning values. |
-| `components/Clock/clock.css` | All clock styling, imported automatically. |
+| `components/Clock/clock.css` | All clock styling, imported automatically and namespaced with `timeless-clock-*` selectors. |
 | `hooks/useTimeZone.ts` | Time-zone resolution and the shared re-sync heartbeat. |
 
 To restyle the clock, edit `constants.ts` — both palettes and the glass settings live there.
