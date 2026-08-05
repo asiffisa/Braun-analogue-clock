@@ -1,5 +1,7 @@
 # Timeless
 
+![Timeless — analogue wall clock for the web](./public/Timeless%20cover%20Big.png)
+
 A Braun-inspired analogue clock for React. Drop it into a page and it keeps real time, in any time zone, with a smooth sweeping second hand.
 
 ## Features
@@ -120,3 +122,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for how the pieces fit together.
 This project is available under the [MIT License](./LICENSE). You can use,
 modify, and redistribute it, provided the copyright and license notice remain
 with the software.
+
+---
+
+This web component is inspired by the classic [Braun BC26](https://br-time.jp/clock/bc26/) clock design.
