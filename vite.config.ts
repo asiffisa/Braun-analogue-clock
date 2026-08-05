@@ -8,10 +8,16 @@ export default defineConfig({
   },
   plugins: [react()],
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
+        codeSplitting: {
+          // Vite 8 uses Rolldown. Keep React in one cacheable vendor file.
+          groups: [
+            {
+              name: 'vendor',
+              test: /[/\\]node_modules[/\\]react(?:-dom)?[/\\]/,
+            },
+          ],
         },
       },
     },

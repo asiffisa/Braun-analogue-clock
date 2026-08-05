@@ -2,6 +2,8 @@
 
 ## Commands
 
+Development and production builds require Node.js 20.19+ or 22.12+ because the project uses Vite 8.
+
 ```bash
 npm install
 npm run dev

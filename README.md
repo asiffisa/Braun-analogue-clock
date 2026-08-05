@@ -1,6 +1,6 @@
 [![React 19.2.8](https://img.shields.io/badge/React-19.2.8-61DAFB?logo=react&logoColor=white)](https://react.dev/)
-[![Vite 6.4.3](https://img.shields.io/badge/Vite-6.4.3-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
-[![TypeScript 5.8.3](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite 8.2.0](https://img.shields.io/badge/Vite-8.2.0-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![TypeScript 7.0.2](https://img.shields.io/badge/TypeScript-7.0.2-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Web Animations API](https://img.shields.io/badge/Web%20Animations%20API-compositor--driven-6B7280)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API)
 [![License MIT](https://img.shields.io/badge/License-MIT-84CC16)](./LICENSE)
 
@@ -55,6 +55,7 @@ Framer needs a one-file Code Component adaptation rather than the React copy-pas
 ### Requirements
 
 - **React 18 or newer**
+- **Node.js 20.19+ or 22.12+** for this repository's Vite 8 development and build tools
 - A bundler that can import `.css`, `.svg`, and `.webp` files — Vite, Next.js, and Create React App all do this out of the box
 - TypeScript with strict mode enabled, or convert the copied `.tsx`/`.ts` files to JavaScript by stripping the types
 
