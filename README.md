@@ -4,6 +4,8 @@
 
 A Braun-inspired analogue clock for React. Drop it into a page and it keeps real time, in any time zone, with a smooth sweeping second hand.
 
+**Tags:** `react` · `typescript` · `analogue-clock` · `wall-clock` · `braun-inspired` · `reusable-component` · `time-zones` · `web-animations-api` · `responsive-design` · `open-source`
+
 ## Features
 
 - **Smooth sweep.** The second hand glides continuously instead of ticking.
