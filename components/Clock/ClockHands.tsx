@@ -21,58 +21,58 @@ const ClockHands: React.FC<ClockHandsProps> = memo(({ theme, timeZone }) => {
     const hands = useClockHands(timeZone);
 
     return (
-        <div className="clock-hands-layer">
+        <div className="timeless-clock-hands-layer">
             {/* Hour Hand */}
             <div
                 ref={hands.hour}
-                className="clock-hand clock-hand--hour"
+                className="timeless-clock-hand timeless-clock-hand--hour"
                 style={{
                     backgroundColor: activeTheme.colors.hands.hour,
-                    '--clock-hand-shadow-color': activeTheme.colors.shadows.hand,
+                    '--timeless-clock-hand-shadow-color': activeTheme.colors.shadows.hand,
                     transform: 'translateX(-50%)',
                 } as CSSProperties}
             >
                 <div
-                    className="clock-hand__insert clock-hand__insert--hour"
-                    style={{ backgroundColor: activeTheme.colors.hands.insertHour ?? activeTheme.colors.hands.insert }}
+                    className="timeless-clock-hand__insert timeless-clock-hand__insert--hour"
+                    style={{ backgroundColor: activeTheme.colors.hands.insertHour }}
                 />
             </div>
 
             {/* Minute Hand */}
             <div
                 ref={hands.minute}
-                className="clock-hand clock-hand--minute"
+                className="timeless-clock-hand timeless-clock-hand--minute"
                 style={{
                     backgroundColor: activeTheme.colors.hands.minute,
-                    '--clock-hand-shadow-color': activeTheme.colors.shadows.hand,
+                    '--timeless-clock-hand-shadow-color': activeTheme.colors.shadows.hand,
                     transform: 'translateX(-50%)',
                 } as CSSProperties}
             >
                 <div
-                    className="clock-hand__insert clock-hand__insert--minute"
-                    style={{ backgroundColor: activeTheme.colors.hands.insertMinute ?? activeTheme.colors.hands.insert }}
+                    className="timeless-clock-hand__insert timeless-clock-hand__insert--minute"
+                    style={{ backgroundColor: activeTheme.colors.hands.insertMinute }}
                 />
             </div>
 
             {/* Second Hand with Shadow */}
             <div
                 ref={hands.second}
-                className="clock-seconds-assembly"
+                className="timeless-clock-seconds-assembly"
                 style={{ transformOrigin: 'center center' }}
             >
                 {/* Main needle pointing UP (towards 12) */}
                 <div
-                    className="clock-second-needle"
+                    className="timeless-clock-second-needle"
                     style={{
                         backgroundColor: activeTheme.colors.hands.second,
-                        '--clock-second-shadow-color': activeTheme.colors.hands.secondShadow,
+                        '--timeless-clock-second-shadow-color': activeTheme.colors.hands.secondShadow,
                     } as CSSProperties}
                 />
 
                 {/* The counterweight and pivot form one rotating, continuous seconds-hand assembly. */}
-                <div className="clock-second-pivot">
+                <div className="timeless-clock-second-pivot">
                     <div
-                        className="clock-second-tail"
+                        className="timeless-clock-second-tail"
                         style={{
                             backgroundColor: activeTheme.colors.hands.second,
                             // Keep the pivot's drop shadow from tinting the solid yellow tail.
@@ -81,17 +81,17 @@ const ClockHands: React.FC<ClockHandsProps> = memo(({ theme, timeZone }) => {
                     />
 
                     <div
-                        className="clock-center-cap"
+                        className="timeless-clock-center-cap"
                         style={{
                             backgroundColor: activeTheme.colors.hands.centerCap,
-                            '--clock-center-cap-shadow-color': activeTheme.colors.shadows.centerCap,
+                            '--timeless-clock-center-cap-shadow-color': activeTheme.colors.shadows.centerCap,
                         } as CSSProperties}
                     >
                         <div
-                            className="clock-center-cap__inner"
+                            className="timeless-clock-center-cap__inner"
                             style={{
                                 backgroundColor: activeTheme.colors.hands.centerCap,
-                                '--clock-center-cap-inset-color': activeTheme.colors.hands.centerCapInset,
+                                '--timeless-clock-center-cap-inset-color': activeTheme.colors.hands.centerCapInset,
                             } as CSSProperties}
                         />
                     </div>

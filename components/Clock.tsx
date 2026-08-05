@@ -23,10 +23,15 @@ export const DEFAULT_TIME_ZONE = IST_TIME_ZONE;
 
 const Clock: React.FC<ClockProps> = ({
   theme = 'light',
-  timeZone = DEFAULT_TIME_ZONE,
+  timeZone: requestedTimeZone = DEFAULT_TIME_ZONE,
   maxSize = CLOCK_DIMENSIONS.size,
   ariaLabel,
 }) => {
+  // Visual editors commonly serialize a cleared text field as an empty string.
+  // Treat blank values like omitted props so the clock keeps its useful defaults.
+  const timeZone = requestedTimeZone.trim() || DEFAULT_TIME_ZONE;
+  const customAriaLabel = ariaLabel?.trim();
+
   // Starts empty so server and client markup agree, then fills in before the
   // first paint. Sync checkpoints land on the minute, so this is never stale.
   const [spokenTime, setSpokenTime] = useState('');
@@ -39,13 +44,13 @@ const Clock: React.FC<ClockProps> = ({
 
   return (
     <div
-      className={`clock-shell clock-shell--${theme}`}
-      data-clock-theme={theme}
+      className={`timeless-clock-shell timeless-clock-shell--${theme}`}
+      data-timeless-clock-theme={theme}
       // Without this the dial is read out as the bare string "12 1 2 3 ... 11",
       // which tells a screen-reader user nothing about the time. `role="img"`
       // also hides the decorative dial parts underneath.
       role="img"
-      aria-label={ariaLabel ?? (spokenTime ? `Analogue clock showing ${spokenTime}` : 'Analogue clock')}
+      aria-label={customAriaLabel || (spokenTime ? `Analogue clock showing ${spokenTime}` : 'Analogue clock')}
       style={{
         maxWidth: `${maxSize}px`,
       }}

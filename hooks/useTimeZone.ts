@@ -61,13 +61,22 @@ export const resolveTimeZone = (timeZone: string): string | undefined => {
   return resolved;
 };
 
-const getFormatter = (timeZone: string): Intl.DateTimeFormat => {
+const getFormatter = (
+  kind: 'time' | 'label',
+  timeZone: string,
+): Intl.DateTimeFormat => {
   const resolved = resolveTimeZone(timeZone);
-  const key = resolved ?? '';
+  const key = `${kind}:${resolved ?? ''}`;
   let formatter = formatters.get(key);
 
   if (!formatter) {
-    formatter = createFormatter(resolved);
+    formatter = kind === 'time'
+      ? createFormatter(resolved)
+      : new Intl.DateTimeFormat(undefined, {
+          ...(resolved === undefined ? {} : { timeZone: resolved }),
+          hour: 'numeric',
+          minute: '2-digit',
+        });
     formatters.set(key, formatter);
   }
 
@@ -80,7 +89,7 @@ export const readClockTime = (timeZone: string, now = new Date()): ClockTime => 
   let minutes = 0;
   let seconds = 0;
 
-  for (const part of getFormatter(timeZone).formatToParts(now)) {
+  for (const part of getFormatter('time', timeZone).formatToParts(now)) {
     // A few engines report midnight as 24 under `h23`, so fold it back to 0.
     if (part.type === 'hour') hours = Number(part.value) % 24;
     else if (part.type === 'minute') minutes = Number(part.value);
@@ -92,13 +101,7 @@ export const readClockTime = (timeZone: string, now = new Date()): ClockTime => 
 
 /** Formats the time for assistive technology, in the reader's own locale. */
 export const readClockLabel = (timeZone: string, now = new Date()): string => {
-  const resolved = resolveTimeZone(timeZone);
-
-  return new Intl.DateTimeFormat(undefined, {
-    ...(resolved === undefined ? {} : { timeZone: resolved }),
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(now);
+  return getFormatter('label', timeZone).format(now);
 };
 
 /**

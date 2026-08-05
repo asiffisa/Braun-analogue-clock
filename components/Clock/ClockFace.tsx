@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import { CLOCK_THEMES, CLOCK_DIMENSIONS, type ClockThemeName } from './constants';
 import braunLogo from './Braun_Logo.svg';
-import silverRimImg from './sliver rim 1.webp';
-import blackRimImg from './black rim 1.webp';
+import silverRimImg from './rim-silver.webp';
+import blackRimImg from './rim-black.webp';
 
 interface ClockFaceProps {
     theme: ClockThemeName;
@@ -29,29 +29,29 @@ const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
     const rimImage = theme === 'dark' ? blackRimImg : silverRimImg;
 
     return (
-        <div className="clock-face-layer">
+        <div className="timeless-clock-face-layer">
             {/* Theme-specific metal rim, placed behind the dial. */}
-            <div className="clock-rim">
+            <div className="timeless-clock-rim">
                 <img
                     src={rimImage}
                     alt=""
                     aria-hidden="true"
-                    className="clock-rim__image"
+                    className="timeless-clock-rim__image"
                 />
             </div>
 
             {/* Dial covers the transparent center of the rim image. */}
             <div
-                className="clock-dial"
+                className="timeless-clock-dial"
                 style={{ background: activeTheme.colors.dial }}
             >
                 {/* Braun Logo below 12 */}
-                <div className="clock-logo">
+                <div className="timeless-clock-logo">
                     <img
                         src={braunLogo}
                         alt=""
                         aria-hidden="true"
-                        className="clock-logo__image"
+                        className="timeless-clock-logo__image"
                         style={{
                             filter: activeTheme.colors.logoFilter,
                             opacity: activeTheme.colors.logoOpacity,
@@ -62,7 +62,7 @@ const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
                     mark.isHour ? (
                         <div
                             key={mark.index}
-                            className="clock-number"
+                            className="timeless-clock-number"
                             style={{
                                 left: mark.left,
                                 top: mark.top,
@@ -74,7 +74,7 @@ const ClockFace: React.FC<ClockFaceProps> = memo(({ theme }) => {
                     ) : (
                         <div
                             key={mark.index}
-                            className="clock-tick"
+                            className="timeless-clock-tick"
                             style={{
                                 left: mark.left,
                                 top: mark.top,

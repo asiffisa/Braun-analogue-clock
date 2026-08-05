@@ -47,6 +47,10 @@ export default function App() {
 
 `Clock.tsx` imports its own stylesheet, so there is no CSS file to wire up and no Tailwind requirement.
 
+### Framer
+
+Framer needs a one-file Code Component adaptation rather than the React copy-paste steps above, because the pasted component cannot rely on this repository's local CSS and image paths. Follow the dedicated [Framer checklist in `Clock_installation.md`](./Clock_installation.md#framer-code-component): it preserves the exact styling, uses hosted rim/logo URLs, keeps browser-only work out of render, and adds controls for all four public props.
+
 ### Requirements
 
 - **React 18 or newer**

@@ -10,20 +10,20 @@ const ClockGlass: React.FC<ClockGlassProps> = memo(({ theme }) => {
     // in a url() fragment, and the exact characters have changed between React
     // versions. Strip everything that is not ident-safe rather than the one
     // separator a given version happens to use.
-    const filterId = `clock-glass-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+    const filterId = `timeless-clock-glass-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
     const glass = CLOCK_GLASS[theme];
     const glassStyle = {
-        '--glass-upper-reflection-opacity': glass.upperReflectionOpacity,
-        '--glass-left-curve-opacity': glass.leftCurveOpacity,
-        '--glass-left-curve-inset': `${glass.leftCurveInset}%`,
-        '--glass-left-curve-thickness': `${glass.leftCurveThickness}px`,
+        '--timeless-clock-glass-upper-reflection-opacity': glass.upperReflectionOpacity,
+        '--timeless-clock-glass-left-curve-opacity': glass.leftCurveOpacity,
+        '--timeless-clock-glass-left-curve-inset': `${glass.leftCurveInset}%`,
+        '--timeless-clock-glass-left-curve-thickness': `${glass.leftCurveThickness}px`,
         backdropFilter: `url(#${filterId}) blur(${glass.blur}px) saturate(${glass.saturation}) contrast(${glass.contrast})`,
         WebkitBackdropFilter: `blur(${glass.blur}px) saturate(${glass.saturation}) contrast(${glass.contrast})`,
     } as CSSProperties;
 
     return (
         <>
-            <svg className="clock-glass-filter" aria-hidden="true">
+            <svg className="timeless-clock-glass-filter" aria-hidden="true">
                 <defs>
                     <filter
                         id={filterId}
@@ -53,12 +53,12 @@ const ClockGlass: React.FC<ClockGlassProps> = memo(({ theme }) => {
             </svg>
 
             <div
-                className={`clock-glass clock-glass--${theme}`}
+                className={`timeless-clock-glass timeless-clock-glass--${theme}`}
                 aria-hidden="true"
                 style={glassStyle}
             >
-                <div className="clock-glass__upper-reflection" />
-                <div className="clock-glass__left-curve" />
+                <div className="timeless-clock-glass__upper-reflection" />
+                <div className="timeless-clock-glass__left-curve" />
             </div>
         </>
     );

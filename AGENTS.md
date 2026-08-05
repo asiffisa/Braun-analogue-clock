@@ -45,7 +45,9 @@ The public API is intentionally small:
 
 ## Framer handoff
 
-Create one Framer Code Component from the reusable clock boundary. Add a `theme` property control with `light` and `dark` options, preserve the square aspect ratio, and avoid browser-only APIs during render. Framer hides broken code components, so test in both the Framer canvas and preview.
+The React copy manifest is not a direct Framer paste: the Code Component must include the whole reusable boundary without relying on this repository's local CSS or asset paths. Follow the Framer checklist in `Clock_installation.md`.
+
+Create one React 18-compatible Framer Code Component. Preserve the exact `clock.css` values in a render-time `<style>` element, replace the logo and rim imports with stable hosted asset URLs, and keep browser-only APIs out of render. Add property controls for `theme`, `timeZone`, `maxSize`, and `ariaLabel`, plus code-level defaults. Preserve the square aspect ratio. Framer hides broken code components, so test both themes in the Framer canvas and Preview.
 
 ## Before handing off
 
