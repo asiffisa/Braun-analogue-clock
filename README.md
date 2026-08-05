@@ -55,7 +55,7 @@ Framer needs a one-file Code Component adaptation rather than the React copy-pas
 ### Requirements
 
 - **React 18 or newer**
-- **Node.js 20.19+ or 22.12+** for this repository's Vite 8 development and build tools
+- **Node.js 20.19–20.x, 22.12–22.x, or 24.x** for this repository's Vite 8 development and build tools
 - A bundler that can import `.css`, `.svg`, and `.webp` files — Vite, Next.js, and Create React App all do this out of the box
 - TypeScript with strict mode enabled, or convert the copied `.tsx`/`.ts` files to JavaScript by stripping the types
 
