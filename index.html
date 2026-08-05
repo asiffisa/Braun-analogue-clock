@@ -8,19 +8,24 @@
     <title>Timeless — A wall clock for the web</title>
     <link rel="icon" href="/timeless%20favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/timeless%20favicon.png" />
-    <!-- Shared links render as a bare URL without these.
-         TODO: some crawlers (notably Facebook) require an absolute og:image.
-         Once the production domain is settled, prefix the image paths below
-         with it and add <meta property="og:url"> plus <link rel="canonical">. -->
+    <!-- Link preview crawlers require public, absolute URLs. Keep this domain
+         aligned with the production alias when the site URL changes. -->
+    <link rel="canonical" href="https://timelessc.vercel.app/" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://timelessc.vercel.app/" />
     <meta property="og:site_name" content="Timeless" />
     <meta property="og:title" content="Timeless — A wall clock for the web" />
     <meta property="og:description" content="A Braun-inspired analogue clock for the web, with smooth time movement and a reusable React component." />
-    <meta property="og:image" content="/plaster-wall-morning-cropped.webp" />
+    <meta property="og:image" content="https://timelessc.vercel.app/timeless%20cover.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1000" />
+    <meta property="og:image:height" content="775" />
+    <meta property="og:image:alt" content="Timeless analogue clock on a plaster wall" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Timeless — A wall clock for the web" />
     <meta name="twitter:description" content="A Braun-inspired analogue clock for the web, with smooth time movement and a reusable React component." />
-    <meta name="twitter:image" content="/plaster-wall-morning-cropped.webp" />
+    <meta name="twitter:image" content="https://timelessc.vercel.app/timeless%20cover.jpg" />
+    <meta name="twitter:image:alt" content="Timeless analogue clock on a plaster wall" />
 
     <!-- Preload hero LCP wall texture for faster initial paint -->
     <link rel="preload" as="image" href="/plaster-wall-morning-cropped.webp" fetchpriority="high" />
