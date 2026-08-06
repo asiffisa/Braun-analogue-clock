@@ -52,6 +52,10 @@ export default function App() {
 
 Framer needs a one-file Code Component adaptation rather than the React copy-paste steps above, because the pasted component cannot rely on this repository's local CSS and image paths. Follow the dedicated [Framer checklist in `Clock_installation.md`](./Clock_installation.md#framer-code-component): it preserves the exact styling, uses hosted rim/logo URLs, keeps browser-only work out of render, and adds controls for all four public props.
 
+### Social previews
+
+The public link preview uses the Open Graph and Twitter metadata in `index.html`. When changing its image, add a new versioned file (for example, `timeless-social-preview-YYYYMMDD.png`) and update both image URLs. Do not replace the image behind an existing URL: Telegram caches previews on its servers, so it may continue showing the old card even after a deploy.
+
 ### Requirements
 
 - **React 18 or newer**
