@@ -54,7 +54,7 @@ const INSTALL_SNIPPETS: Record<InstallTarget, (theme: ClockThemeName) => Snippet
   ],
   agent: (theme) => [
     { text: 'Add the Timeless Clock to this React app.\n\n' },
-    { text: 'Follow Clock_installation.md from github.com/asiffisa/Braun-analogue-clock.\n' },
+    { text: 'Follow Clock_installation.md from github.com/asiffisa/Timeless-braun_clock.\n' },
     { text: 'Copy only its “Copy” paths. Exclude every “Do not copy” path.\n\n' },
     { text: '<' },
     { text: 'Clock', kind: 'component' },
@@ -469,7 +469,7 @@ const App: React.FC = () => {
             </div>
             <div className="footer-socials">
               <a
-                href="https://github.com/asiffisa/Braun-analogue-clock"
+                href="https://github.com/asiffisa/Timeless-braun_clock"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-social-link"

@@ -38,4 +38,4 @@ Useful Framer references: [Code Components](https://www.framer.com/developers/co
 
 ### Prompt for a coding agent
 
-> Adapt the Timeless reusable clock boundary from `github.com/asiffisa/Braun-analogue-clock` into one Framer Code Component. Follow the Framer checklist in `Clock_installation.md`. Preserve all visual values and Web Animations API behavior, inline the unchanged clock CSS in a render-time `<style>` element, replace local SVG/WebP imports with stable hosted URLs, add controls for theme, timeZone, maxSize, and ariaLabel, and verify both the Framer canvas and Preview.
+> Adapt the Timeless reusable clock boundary from `github.com/asiffisa/Timeless-braun_clock` into one Framer Code Component. Follow the Framer checklist in `Clock_installation.md`. Preserve all visual values and Web Animations API behavior, inline the unchanged clock CSS in a render-time `<style>` element, replace local SVG/WebP imports with stable hosted URLs, add controls for theme, timeZone, maxSize, and ariaLabel, and verify both the Framer canvas and Preview.

@@ -110,7 +110,7 @@ For no-code fields such as Framer controls, a blank or whitespace-only `timeZone
 
 Point your agent at the repository:
 
-> Add the Timeless Clock to this React app. Follow `Clock_installation.md` from `github.com/asiffisa/Braun-analogue-clock` — copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />`.
+> Add the Timeless Clock to this React app. Follow `Clock_installation.md` from `github.com/asiffisa/Timeless-braun_clock` — copy only its **Copy** paths and exclude every **Do not copy** path. Then render `<Clock theme="light" />`.
 
 [AGENTS.md](./AGENTS.md) holds the integration contract and the visual details that must not regress.
 
